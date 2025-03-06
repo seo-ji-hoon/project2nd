@@ -3,6 +3,8 @@ package data.mapper;
 import data.dto.BoardPetDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface BoardPetMapper {
 
@@ -15,4 +17,6 @@ public interface BoardPetMapper {
     public void updateBoardPet(BoardPetDto dto);
 
     public void deleteBoardPet(int idx);
+
+    List<BoardPetDto> getPagingList(int startNum, int perPage);
 }

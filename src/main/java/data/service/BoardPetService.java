@@ -5,6 +5,8 @@ import data.mapper.BoardPetMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class BoardPetService {
@@ -33,5 +35,10 @@ public class BoardPetService {
 
     public void deleteBoardPet(int idx){
         boarPetMapper.deleteBoardPet(idx);
+    }
+
+    // 페이징과 정렬 처리를 위해 그냥 새로 생성 !! (위에 그냥 getlist 이건 냅둬봐)
+    public List<BoardPetDto> getPagingList(int startNum, int perPage) {
+        return boarPetMapper.getPagingList(startNum, perPage);
     }
 }

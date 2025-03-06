@@ -17,4 +17,5 @@ public class BoardPetDto {
     private int likes;
     private int repleCount;
     private Timestamp writeday;
+    private String fileName;
 }
