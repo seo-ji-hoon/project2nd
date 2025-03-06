@@ -48,7 +48,7 @@
         총 ${totalCount}개의 글이 있습니다.
 
         <button type="button" class="btn btn-sm btn-success"
-                style="float: right;" onclick="location.href='./writeform'">글쓰기</button>
+                style="float: right;" onclick="location.href='./boardpetwriteform'">등록</button>
     </h5>
     <table class="tabboard table table-bordered">
         <thead>
@@ -79,18 +79,24 @@
                     </td>
                     <td>
                         <c:if test="${dto.fileName != null }">
-                            <img src="${naverurl}/board/${dto.fileName}" style="max-width: 50px;"  alt="사진"/>
+                            <img src="${naverurl}/board_pet/${dto.fileName}" style="max-width: 50px;"  alt="사진"/>
                         </c:if>
                     </td>
                     <td align="center">${dto.writer}</td>
                     <td>
                         <!-- 제목 -->
-                        <a href="./detail?idx=${dto.idx}&pageNum=${pageNum}"
+                        <a href="./petview?idx=${dto.idx}&pageNum=${pageNum}"
                            style="color: black; text-decoration:none;">
                                 ${dto.subject}
                         </a>
                     </td>
                     <td align="center">
+                        <c:if test="${dto.likes == 0}">
+                            <i class="bi bi-suit-heart"></i>
+                        </c:if>
+                        <c:if test="${dto.likes > 0}">
+                            <i class="bi bi-suit-heart-fill"></i>
+                        </c:if>
                             ${dto.likes}
                     </td>
                     <td align="center">${dto.readcount}</td>

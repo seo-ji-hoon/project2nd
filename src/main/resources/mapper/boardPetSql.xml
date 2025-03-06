@@ -11,6 +11,7 @@
         select * from board_pet where idx=#{idx}
     </select>
 
+
     <insert id="insertBoardPet" parameterType="BoardPetDto">
         insert into board_pet (myid,writer,subject,content)
         values (#{myid},#{writer},#{subject},#{content})
@@ -34,6 +35,10 @@
         order by idx desc limit #{startNum},#{perPage}
     </select>
 
+    <!-- 특정 게시글의 조회수를 1 증가시키는 쿼리 -->
+    <update id="updateReadCount" parameterType="int">
+        update board_pet set readcount=readcount+1 where idx=#{idx}
+    </update>
 
 
 </mapper>
