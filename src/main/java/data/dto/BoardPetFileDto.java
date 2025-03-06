@@ -7,7 +7,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("BoardPetFileDto")
 public class BoardPetFileDto {
 
-    private int num;
     private int idx;
+    private int board_idx;
     private String filename;
 }

@@ -102,6 +102,32 @@ public class BoardPetController {
         return "boardpet/boardpetlist";
     }
 
+
+    // 등록 시작 !!!!
+    // boardpetwriteform
+    @GetMapping("/boardpetwriteform")
+    public String writeForm(
+            // 아래 4개의 값은 답글일떄만 넘어온다, 새글일떄는 null값이 넘어오므로
+            // require 를 false 로 주거나 defaultValue 를 지정해야한다.
+
+            @RequestParam(value = "idx", defaultValue = "0") int idx,
+            @RequestParam(value = "regroup", defaultValue = "0") int regroup,
+            @RequestParam(value = "restep", defaultValue = "0") int restep,
+            @RequestParam(value = "relevel", defaultValue = "0") int relevel,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, Model model) {
+
+        model.addAttribute("idx", idx);
+        model.addAttribute("regroup", regroup);
+        model.addAttribute("restep", restep);
+        model.addAttribute("relevel", relevel);
+        model.addAttribute("pageNum", pageNum);
+
+        return "boardpet/boardpetwriteform";
+    }
+
+
+    /// ///////////////////////////
+
     @GetMapping("/petview")
     public String petview (@RequestParam int idx, @RequestParam(defaultValue = "1") int pageNum, Model model){
 
@@ -112,18 +138,23 @@ public class BoardPetController {
 
         //idx 글에 등록된 파일들 가져오기
         List<String> fileList=new Vector<>();
+
         List<BoardPetFileDto> flist=boardPetFileService.getFiles(idx);
         for(BoardPetFileDto fdto:flist) {
             fileList.add(fdto.getFilename());
         }
 
-        //dto.setPhotos(fileList);
+        dto.setPhotos(fileList);
+
+
         //해당 아이디에 대한 사진을 멤버 테이블에서 얻기
-       // String memberPhoto=memberPetService.getSelectByMyid(dto.getMyid()).getMphoto();
+        System.out.println(">>>>>>>" + dto.getMyid());
+        String memberPhoto=memberPetService.getSelectByMyid(dto.getMyid()).getMphoto();
+        System.out.println(dto.getMyid());
 
         //모델에 저장
         model.addAttribute("dto", dto);
-       // model.addAttribute("memberPhoto", memberPhoto);
+        model.addAttribute("memberPhoto", memberPhoto);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
 
@@ -142,14 +173,15 @@ public class BoardPetController {
         String myid=(String)session.getAttribute("loginid");
 
         //아이디를 이용해서 멤버 테이블에서 작성자를 얻는다(아이디와 작성자는 dto에 넣어야함)
-        //String writer=memberPetService.getSelectByMyid(myid).getMname();
+        String writer=memberPetService.getSelectByMyid(myid).getMname();
 
         //dto에 넣기
         dto.setMyid(myid);
-        //dto.setWriter(writer);
-
+        dto.setWriter(writer);
         //게시판 내용을 일단 db에 저장(idx를 얻어올수 있기떄문에 내용을 db에 저장해야함)
         boardpetService.insertBoardPet(dto);
+
+
 
         //파일이 있는 경우에만 해당, 네이버 스토리지에 저장후 파일저장(idx,filename 필요함)
         //반복문 안에서 이루어져야만한다.
@@ -157,11 +189,13 @@ public class BoardPetController {
 
         for(MultipartFile file:upload) {
             if (!file.isEmpty()) {
-                String filename = storageService.uploadFile(bucketName, " board_pet", file);
-                filedto.setIdx(dto.getIdx());
+                String filename = storageService.uploadFile(bucketName, "board_pet", file);
+
+                filedto.setBoard_idx(dto.getIdx());
                 filedto.setFilename(filename);
 
                 boardPetFileService.insertBoardPetFile(filedto);
+
             }
         }
 

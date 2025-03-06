@@ -15,6 +15,15 @@ spring:
     username: study
     password: bitcamp!@#123
 
+  mybatis:
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    org.mybatis: DEBUG
+    org.apache.ibatis: DEBUG
+
 #mybatis setting
 mybatis:
   type-aliases-package: data.dto

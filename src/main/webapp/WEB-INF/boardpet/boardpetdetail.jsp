@@ -41,6 +41,22 @@
             padding: 10px;
         }
 
+        .profilePhoto{
+            width: 40px;
+            height: 40px;
+            border: 1px solid gray;
+            margin-right: 10px;
+        }
+
+        .day {
+            font-size: 13px;
+            color: gray;
+        }
+
+        #photoupload{
+            display: none;
+        }
+
 
     </style>
 
@@ -49,8 +65,8 @@
 <jsp:include page="../../layout/title.jsp"/>
 <div style="margin: 30px;">
     <h3><b>${dto.subject }</b></h3>
-    <img alt="" src="${naverurl}/member/${memberPhoto }" class="profilePhoto" align="left"
-         onerror="this.src='../save/noimage.png'">
+    <img alt="" src="${naverurl}/member2/${memberPhoto }" class="profilePhoto" align="left"
+         onerror="this.src='${root}/noimage.png'">
     <span>${dto.writer }</span><br>
     <span class="day">
 			<fmt:formatDate value="${dto.writeday }" pattern="yyyy-MM-dd HH:mm"/>
@@ -60,7 +76,7 @@
     <pre style="margin-top: 30px; font-size: 15px;">${dto.content }</pre>
     <div style="margin-top: 30px;">
         <c:forEach var="photo" items="${dto.photos }">
-            <img src="${naverurl}/board/${photo}" style="max-width: 300px;">
+            <img src="${naverurl}/board_pet/${photo}" style="max-width: 300px;">
         </c:forEach>
     </div>
     <!-- 댓글목록 출력 -->
@@ -113,8 +129,8 @@
             글쓰기
         </button>
 
-        <button type="button" class="btn btn-outline-secondary btn-sm" style="width: 80px;"
-                onclick="location.href='./writeform?idx=${dto.idx}&regroup=${dto.regroup}&restep=${dto.restep}&relevel=${dto.relevel }&pageNum=${pageNum}'">답글</button>
+        <%--<button type="button" class="btn btn-outline-secondary btn-sm" style="width: 80px;"
+                onclick="location.href='./writeform?idx=${dto.idx}&regroup=${dto.regroup}&restep=${dto.restep}&relevel=${dto.relevel }&pageNum=${pageNum}'">답글</button>--%>
 
         <c:if test="${sessionScope.loginid==dto.myid }">
             <button type="button" class="btn btn-outline-secondary btn-sm" style="width:80px;"
@@ -125,7 +141,7 @@
         </c:if>
 
         <button type="button" class="btn btn-outline-secondary btn-sm" style="width: 80px;"
-                onclick="location.href='./list?pageNum=${pageNum }'">목록</button>
+                onclick="location.href='./boardpetlist?pageNum=${pageNum }'">목록</button>
 
     </div>
 </div>

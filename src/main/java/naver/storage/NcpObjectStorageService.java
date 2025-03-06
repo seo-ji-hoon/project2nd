@@ -1,13 +1,5 @@
 package naver.storage;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
-
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
@@ -16,6 +8,13 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class NcpObjectStorageService implements ObjectStorageService{
@@ -54,6 +53,9 @@ AmazonS3 s3;
 					fileIn,
 					objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
 
+
+			System.out.println(">>>>>>>> bucketName="+bucketName);
+			System.out.println(">>>>>>>> path="+directoryPath +"/"+ filename);
 			s3.putObject(objectRequest);
 			
 			//return s3.getUrl(bucketName, directoryPath + filename).toString();

@@ -3,12 +3,12 @@
 <mapper namespace="data.mapper.BoardPetFileMapper">
 
     <!-- 게시글에 첨부된 파일 정보를 저장하는 SQL -->
-    <insert id="insertBoardPetFile" parameterType="BoardFileDto">
+    <insert id="insertBoardPetFile" parameterType="BoardPetFileDto">
         insert into board_pet_file (board_idx, filename) values (#{board_idx}, #{filename})
     </insert>
 
     <!-- 특정 게시글(board_idx)에 업로드된 파일 목록을 조회하는 SQL -->
-    <select id="getFiles" parameterType="int" resultType="BoardFileDto">
+    <select id="getFiles" parameterType="int" resultType="BoardPetFileDto">
         select * from board_pet_file where board_idx=#{board_idx} order by idx
     </select>
 
