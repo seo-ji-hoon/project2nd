@@ -1,6 +1,8 @@
 package data.mapper;
 
 import data.dto.BoardPetDto;
+import data.dto.BoardPetRepleDto;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,4 +21,6 @@ public interface BoardPetMapper {
     public void deleteBoardPet(int idx);
 
     List<BoardPetDto> getPagingList(int startNum, int perPage);
+    
+    public List<BoardPetDto> getSelectById(String myid);
 }

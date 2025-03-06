@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입</title>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Gaegu&family=Jua&family=Nanum+Pen+Script&family=Playwrite+AU+SA:wght@100..400&family=Single+Day&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -31,6 +31,64 @@
         .insertdiv th{
         	text-align: center;
         }
+        ul.mymenu{
+			list-style: none;
+			padding: 0;
+    		display: flex;
+    		justify-content: center; /* 가로 가운데 정렬 */
+    		align-items: center;/* 세로 정렬 */
+    		flex-grow: 1;
+    		margin-left: 15%;
+    		margin-right: 15%;
+		}
+		ul.mymenu li{
+			float: none;
+			width: 100px;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			background-color:mediumaquamarine;
+			border: 1px solid gray;
+			border-radius: 20px;
+		}
+		
+		img.profilephoto{
+			width: 40px;
+			height: 40px;
+			border: 1px solid gray;
+			border-radius: 100px;
+			margin-right: 10px;
+			cursor: pointer;
+		}
+		
+		.navdiv {
+    		display: flex;
+    		justify-content: space-between; /* 양쪽 정렬 */
+    		align-items: center; /* 세로 중앙 정렬 */
+    		padding: 10px 20px;
+    		position: relative;
+		}
+
+		.loginjoin {
+    		position: absolute;
+    		right: 20px; /* 오른쪽 끝 정렬 */
+    		bottom: 10px; /* 아래쪽 배치 */
+    		display: flex;
+    		align-items: center;
+    		gap: 15px;
+		}
+
+		.logininfo {
+			position: absolute;
+			top:120px;
+    		right: 20px; /* 오른쪽 끝 정렬 */
+    		bottom: 10px; /* 아래쪽 배치 */
+    		display: flex;
+    		align-items: center;
+    		gap: 10px;
+    		font-size: 16px;
+		}
+  	      
     </style>
      <script>
      	let jungbok=false;

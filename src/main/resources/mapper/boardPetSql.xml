@@ -34,8 +34,10 @@
         order by idx desc limit #{startNum},#{perPage}
     </select>
 
-
-
+	<!-- 마이페이지에서 아이디에 맞는 글 검색 -->
+	<select id="getSelectById" parameterType="String" resultType="BoardPetDto">
+		select * from board_pet where myid=#{myid}
+	</select>
 </mapper>
 
 

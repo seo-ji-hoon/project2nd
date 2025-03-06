@@ -62,12 +62,5 @@
 		onclick="location.href='${root}/dictionary/list'">동물백과</button>
 	</div>
 </div>
-
-<script type="text/javascript">
-	//커뮤니티 버튼 클릭 시 이벤트
-	
-	//동물백과 버튼 클릭 시 이벤트
-
-</script>
 </body>
 </html>

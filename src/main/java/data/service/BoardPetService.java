@@ -41,4 +41,10 @@ public class BoardPetService {
     public List<BoardPetDto> getPagingList(int startNum, int perPage) {
         return boarPetMapper.getPagingList(startNum, perPage);
     }
+    
+    //마이페이지에서 id에 해당하는 글 목록 불러오는 용도
+    public List<BoardPetDto> getSelectById(String myid)
+    {
+    	return boarPetMapper.getSelectById(myid);
+    }
 }

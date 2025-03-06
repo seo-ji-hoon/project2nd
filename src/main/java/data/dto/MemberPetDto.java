@@ -1,6 +1,6 @@
 package data.dto;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import org.apache.ibatis.type.Alias;
 

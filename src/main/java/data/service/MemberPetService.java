@@ -1,5 +1,7 @@
 package data.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import data.dto.MemberPetDto;
@@ -26,6 +28,26 @@ public class MemberPetService {
 	public MemberPetDto getSelectByMyid(String myid)
 	{
 		return memberPetMapper.getSelectByMyid(myid);
+	}
+	
+	public MemberPetDto getSelectByNum(int num)
+	{
+		return memberPetMapper.getSelectByNum(num);
+	}
+	
+	public void updateMember(MemberPetDto dto)
+	{
+		memberPetMapper.updateMember(dto);
+	}
+	
+	public void deleteMember(int num)
+	{
+		memberPetMapper.deleteMember(num);
+	}
+	
+	public List<MemberPetDto> gellAllMembers()
+	{
+		return memberPetMapper.getAllMembers();
 	}
 	
 }
