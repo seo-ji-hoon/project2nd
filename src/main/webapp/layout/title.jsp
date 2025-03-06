@@ -21,15 +21,14 @@
 			text-decoration: none;
 		}
 		
-        div img{
+        .navdiv img{
         	width: 300px;
         	display: block;
     		margin: 0 auto;
         }
         
-        ul.mymenu{
+        ul#titlemenu{
 			list-style: none;
-			padding: 0;
     		display: flex;
     		justify-content: center; /* 가로 가운데 정렬 */
     		align-items: center;/* 세로 정렬 */
@@ -37,7 +36,7 @@
     		margin-left: 15%;
     		margin-right: 15%;
 		}
-		ul.mymenu li{
+		ul#titlemenu li{
 			float: none;
 			width: 100px;
 			height: 40px;
@@ -57,7 +56,14 @@
 			cursor: pointer;
 		}
 		
-		.loginjoin {
+		.navdiv {
+    		display: flex;
+    		justify-content: space-between; /* 양쪽 정렬 */
+    		align-items: center; /* 세로 중앙 정렬 */
+    		position: relative;
+		}
+
+		#titlemember {
     		position: absolute;
     		right: 20px; /* 오른쪽 끝 정렬 */
     		bottom: 10px; /* 아래쪽 배치 */
@@ -65,8 +71,19 @@
     		align-items: center;
     		gap: 15px;
 		}
+
+		#titleinfo {
+			position: absolute;
+			top:120px;
+    		right: 20px; /* 오른쪽 끝 정렬 */
+    		bottom: 10px; /* 아래쪽 배치 */
+    		display: flex;
+    		align-items: center;
+    		gap: 10px;
+    		font-size: 16px;
+		}
 		
-		.loginjoin a, .loginjoin span {
+		#titlemember a, #titlemember span {
     		font-size: 18px;
     		cursor: pointer;
 		}
@@ -128,44 +145,44 @@
 </div>
 
 
-<div style="margin: 10px;">
-<!-- 로고 클릭시 메인 페이지로 이동 -->
-	<h2 class="alert alert-success">
-		<a  href="${root}/">
+<div style="margin: 20px;" class="navdiv alert alert-success">
+	<!-- 로고 클릭 시 메인 페이지로 이동 -->
+	<h2>
+		<a href="${root}/">
 			<img src="/logo1.png">
 		</a>
-		<br>
-		
-	<div class="loginjoin">
+	</h2>
+
+	<!-- 로그인/회원가입 영역 -->
+	<div id="titlemember">
 		<c:if test="${sessionScope.loginstatus==null}">
-				<a data-bs-toggle="modal" data-bs-target="#myLoginModal">로그인</a>
-				<a id="join" href="${root}/member/form">회원가입</a>
+			<a data-bs-toggle="modal" data-bs-target="#myLoginModal">로그인</a>
+			<a id="join" href="${root}/member/form">회원가입</a>
 		</c:if>
 		<c:if test="${sessionScope.loginstatus!=null}">
-				<span id="logout">로그아웃</span>
+			<span id="logout">로그아웃</span>
 		</c:if>
-		</h2>
 	</div>
 	
-		<span style="margin-left:300px;font-size: 15px;">
-			<c:if test="${sessionScope.loginstatus!=null}">
-				<c:set var="naverurl" value="https://kr.object.ncloudstorage.com/bitcamp-bucket-107"/>
-				
-				<img src="${naverurl}/member/${sessionScope.loginphoto}" class="profilephoto"
-				onerror="this.src='${root}/save/noimage.png'">
-				<script>
-					$(".profilephoto").click(function(){
-						location.href=`${root}/member/mypage`;
-					});
-				</script>
-				
-				<b>${sessionScope.loginid}</b> 님이 로그인중입니다
-			</c:if>
-		</span>		
 	
-</div>	
+	<!-- 로그인 정보 영역 -->
+	<div id="titleinfo">
+		<c:if test="${sessionScope.loginstatus!=null}">
+			<c:set var="naverurl" value="https://kr.object.ncloudstorage.com/bitcamp-bucket-110"/>
 
-<ul class="mymenu">
+			<img src="${naverurl}/member2/${sessionScope.loginphoto}" class="profilephoto"
+			onerror="this.src='${root}/noimage.png'">
+			<script>
+				$(".profilephoto").click(function(){
+					location.href=`${root}/member/mypage`;
+				});
+			</script>
+			<b style="color:green">${sessionScope.mname}</b> 님이 로그인 중입니다
+		</c:if>
+	</div>
+</div>
+	
+<ul id="titlemenu">
 		  <li>
 			<a href="${root}/">Home</a>
 		</li>
@@ -204,6 +221,7 @@
 						//새로고침
 						location.reload();
 					}else{
+						수정수정
 						alert("아이디나 비밀번호가 맞지 않습니다");
 						$("#loginpass").val("");
 					}
@@ -212,7 +230,7 @@
 		});
 		
 		//로그아웃 클릭 시 이벤트
-		$(".loginjoin #logout").click(function(){
+		$(".titlemember #logout").click(function(){
 			$.ajax({
 				type:"get",
 				dataType:"text",

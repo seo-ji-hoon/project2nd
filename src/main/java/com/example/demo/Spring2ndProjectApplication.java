@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"data.*","*.controller","com.example.demo","naver.storage"})
+@ComponentScan({"data.*","*.controller","com.example.demo","naver.storage","naver.aiservice"})
 @MapperScan({"data.mapper"})
 public class Spring2ndProjectApplication {
 

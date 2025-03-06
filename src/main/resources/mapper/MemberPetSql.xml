@@ -8,4 +8,22 @@
 		insert into member_pet (mname,mpass,myid,mhp,maddr,mphoto,gaipday) values 
 		(#{mname},#{mpass},#{myid},#{mhp},#{maddr},#{mphoto},now())		
 	</insert>
+	<select id="loginCheck" parameterType="Map" resultType="int">
+		select count(*) from member_pet where myid=#{loginid} and mpass=#{loginpass}
+	</select>
+	<select id="getSelectByMyid" parameterType="String" resultType="MemberPetDto">
+		select * from member_pet where myid=#{myid}
+	</select>
+	<select id="getSelectByNum" parameterType="int" resultType="MemberPetDto">
+		select * from member_pet where num=#{num}
+	</select>
+	<update id="updateMember" parameterType="MemberPetDto">
+		update member_pet set mname=#{mname},mphoto=#{mphoto},mhp=#{mhp},maddr=#{maddr} where num=#{num}
+	</update>
+	<delete id="deleteMember" parameterType="int">
+		delete from member_pet where num=#{num}
+	</delete>
+	<select id="getAllMembers" parameterType="MemberPetDto">
+		select * from member_pet order by num
+	</select>
 </mapper>
