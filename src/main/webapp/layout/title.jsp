@@ -147,22 +147,23 @@
 		</h2>
 	</div>
 	
+	<div>
 		<span style="margin-left:300px;font-size: 15px;">
 			<c:if test="${sessionScope.loginstatus!=null}">
 				<c:set var="naverurl" value="https://kr.object.ncloudstorage.com/bitcamp-bucket-107"/>
 				
 				<img src="${naverurl}/member/${sessionScope.loginphoto}" class="profilephoto"
-				onerror="this.src='${root}/save/noimage.png'">
+				onerror="this.src='${root}/noimage.png'">
 				<script>
 					$(".profilephoto").click(function(){
 						location.href=`${root}/member/mypage`;
 					});
 				</script>
 				
-				<b>${sessionScope.loginid}</b> 님이 로그인중입니다
+				<b style="color:green">${sessionScope.mname}</b> 님이 로그인중입니다
 			</c:if>
 		</span>		
-	
+	</div>
 </div>	
 
 <ul class="mymenu">
@@ -225,5 +226,6 @@
 		});
 		
 	</script>
+<br style="clear: both;">
 </body>
 </html>

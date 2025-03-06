@@ -26,7 +26,7 @@ public class MemberPetAddController {
 	MemberPetService memberPetService;
 	
 	//버켓이름
-	private String bucketName="bitcamp-bucket-101";//지훈님 것으로 수정해야함
+	private String bucketName="bitcamp-bucket-110";//지훈님 것으로 수정해야함
 	
 	@Autowired
 	NcpObjectStorageService storageService;
@@ -48,5 +48,32 @@ public class MemberPetAddController {
 			map.put("result", "success");
 		return map;
 	}
+	
+	@PostMapping("/insert")
+	public String insert(
+			HttpServletRequest request,
+			@ModelAttribute MemberPetDto dto,
+			@RequestParam("upload") MultipartFile upload
+			)
+	{
+		//사진선택을 안했을경우 upload 의 파일명을 확인후
+		//사진선택을 안했다면 upload하지말고 mphoto 에 "no" 저장
+		System.out.println("filename:"+upload.getOriginalFilename());
+		
+		if(upload.getOriginalFilename().equals("")) {
+			dto.setMphoto("no");
+		}else {
+			//네이버 스토리지에 사진 저장하기-
+			//네이버 오브젝트스토리지에 사진을 업로드후 업로드한 파일명을 반환
+			String uploadFilename=storageService.uploadFile(bucketName, "member2", upload);
+			dto.setMphoto(uploadFilename);
+		}
+		
+		memberPetService.insertMember(dto);
+		
+		return "redirect:../";//일단은 홈으로 이동
+		
+	}
+	
 	
 }

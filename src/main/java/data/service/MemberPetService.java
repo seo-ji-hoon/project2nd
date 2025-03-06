@@ -18,5 +18,14 @@ public class MemberPetService {
 	{
 		memberPetMapper.insertMember(dto);
 	}
+	public boolean loginCheck(String loginid,String loginpass)
+	{
+		return memberPetMapper.loginCheck(loginid,loginpass)==1?true:false;
+	}
+	
+	public MemberPetDto getSelectByMyid(String myid)
+	{
+		return memberPetMapper.getSelectByMyid(myid);
+	}
 	
 }
