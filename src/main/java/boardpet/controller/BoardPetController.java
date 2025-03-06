@@ -204,7 +204,7 @@ public class BoardPetController {
     
     
     //게시글 수정
-    @PostMapping("/petupdate")
+    @GetMapping("/petupdate")
     public String updateBoardPet(@RequestParam int idx, @RequestParam int pageNum, Model model) {
 
         BoardPetDto dto = boardpetService.getSelectByIdx(idx);
@@ -216,7 +216,46 @@ public class BoardPetController {
         return "boardpet/boardpetupdateform";
 
     }
-    
+
+    //수정에서 사진 나오게
+    // 수정폼에서 기존 사진목록 나타냄
+    @GetMapping("/photolist")
+    @ResponseBody
+    public List<BoardPetFileDto> photoList(@RequestParam int idx) {
+
+        List<BoardPetFileDto> list = boardPetFileService.getFiles(idx);
+
+        return list;
+
+    }
+
+
+    //수정 파일
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardPetDto dto, @RequestParam int pageNum,
+                         @RequestParam("upload") List<MultipartFile> upload) {
+        // 제목 및 내용 수정
+        boardpetService.updateBoardPet(dto);
+
+        // 사진은 추가
+        // 파일이 있는 경우에만 해당, 네이버 스토리지에 저장 후 파일저장(이때 필요한 게 idx, filename)***
+        // => 반복문 안에서 이루어져야 함
+        if (!upload.get(0).getOriginalFilename().equals("")) {
+
+            for (MultipartFile f : upload) {
+                String filename = storageService.uploadFile(bucketName, "board_pet", f);
+                BoardPetFileDto bdto = new BoardPetFileDto();
+                bdto.setIdx(dto.getIdx());
+                bdto.setFilename(filename);
+
+                // boardfile에 insert
+                boardPetFileService.insertBoardPetFile(bdto); // 사진은 수정이 아니라 추가이므로 insertBoardFile(dto);
+            }
+        }
+
+        return "redirect:./petview?idx=" + dto.getIdx() + "&pageNum=" + pageNum;
+
+    }
     
     //게시글삭제
     @PostMapping("/petdelete")

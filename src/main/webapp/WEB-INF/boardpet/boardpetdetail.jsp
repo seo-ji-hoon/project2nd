@@ -134,7 +134,7 @@
 
         <c:if test="${sessionScope.loginid==dto.myid }">
             <button type="button" class="btn btn-outline-secondary btn-sm" style="width:80px;"
-                    onclick="location.href='./updateform?idx=${dto.idx}&pageNum=${pageNum}'">수정</button>
+                    onclick="location.href='./petupdate?idx=${dto.idx}&pageNum=${pageNum}'">수정</button>
 
             <button type="button" class="btn btn-outline-secondary btn-sm" style="width: 80px;"
                     onclick="boarddel()">삭제</button>
