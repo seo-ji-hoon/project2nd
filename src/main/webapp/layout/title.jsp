@@ -205,6 +205,7 @@
 						//새로고침
 						location.reload();
 					}else{
+						수정수정
 						alert("아이디나 비밀번호가 맞지 않습니다");
 						$("#loginpass").val("");
 					}
@@ -226,6 +227,5 @@
 		});
 		
 	</script>
-<br style="clear: both;">
 </body>
 </html>
