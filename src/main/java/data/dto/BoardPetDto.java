@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Alias("BoardPetDto") //별칭
@@ -18,4 +19,5 @@ public class BoardPetDto {
     private int repleCount;
     private Timestamp writeday;
     private String fileName;
+    private List<String> photos;
 }

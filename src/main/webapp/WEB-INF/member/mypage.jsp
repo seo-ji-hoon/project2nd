@@ -204,7 +204,7 @@
 
 <hr style="width: 700px;margin: 20px auto">
 
-<!-- 내가 쓴 글/내가 쓴 댓글 목록 영역 -->
+<!-- 내가 쓴 글/내가 쓴 댓글 버튼 영역 -->
 <div class="mylist">
 	<button type="button" id="myboard" class="btn btn-sm btn-success">내가 쓴 글</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;

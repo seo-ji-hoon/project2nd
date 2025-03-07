@@ -41,8 +41,8 @@ public class BoardPetController {
     {
 
         //페이징처리
-        int perPage=3;//한페이지당 출력할 글의 갯수
-        int perBlock=3;//한 블럭당 출력할 페이지 갯수
+        int perPage=5;//한페이지당 출력할 글의 갯수
+        int perBlock=5;//한 블럭당 출력할 페이지 갯수
         int totalCount;//전체 게시글 갯수
         int totalPage;//총 페이지수
         int startNum;//각 페이지에서 가져올 시작번호 (mysql은 첫 데이타가 0번,오라클은 1번)
@@ -102,6 +102,31 @@ public class BoardPetController {
         return "boardpet/boardpetlist";
     }
 
+
+    // 등록 시작 !!!!
+    // boardpetwriteform
+    @GetMapping("/boardpetwriteform")
+    public String writeForm(
+            // 아래 4개의 값은 답글일떄만 넘어온다, 새글일떄는 null값이 넘어오므로
+            // require 를 false 로 주거나 defaultValue 를 지정해야한다.
+
+            @RequestParam(value = "idx", defaultValue = "0") int idx,
+            @RequestParam(value = "regroup", defaultValue = "0") int regroup,
+            @RequestParam(value = "restep", defaultValue = "0") int restep,
+            @RequestParam(value = "relevel", defaultValue = "0") int relevel,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, Model model) {
+
+        model.addAttribute("idx", idx);
+        model.addAttribute("regroup", regroup);
+        model.addAttribute("restep", restep);
+        model.addAttribute("relevel", relevel);
+        model.addAttribute("pageNum", pageNum);
+
+        return "boardpet/boardpetwriteform";
+    }
+
+
+
     @GetMapping("/petview")
     public String petview (@RequestParam int idx, @RequestParam(defaultValue = "1") int pageNum, Model model){
 
@@ -112,18 +137,23 @@ public class BoardPetController {
 
         //idx 글에 등록된 파일들 가져오기
         List<String> fileList=new Vector<>();
+
         List<BoardPetFileDto> flist=boardPetFileService.getFiles(idx);
         for(BoardPetFileDto fdto:flist) {
             fileList.add(fdto.getFilename());
         }
 
-        //dto.setPhotos(fileList);
+        dto.setPhotos(fileList);
+
+
         //해당 아이디에 대한 사진을 멤버 테이블에서 얻기
-       // String memberPhoto=memberPetService.getSelectByMyid(dto.getMyid()).getMphoto();
+        System.out.println(">>>>>>>" + dto.getMyid());
+        String memberPhoto=memberPetService.getSelectByMyid(dto.getMyid()).getMphoto();
+        System.out.println(dto.getMyid());
 
         //모델에 저장
         model.addAttribute("dto", dto);
-       // model.addAttribute("memberPhoto", memberPhoto);
+        model.addAttribute("memberPhoto", memberPhoto);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
 
@@ -142,14 +172,15 @@ public class BoardPetController {
         String myid=(String)session.getAttribute("loginid");
 
         //아이디를 이용해서 멤버 테이블에서 작성자를 얻는다(아이디와 작성자는 dto에 넣어야함)
-        //String writer=memberPetService.getSelectByMyid(myid).getMname();
+        String writer=memberPetService.getSelectByMyid(myid).getMname();
 
         //dto에 넣기
         dto.setMyid(myid);
-        //dto.setWriter(writer);
-
+        dto.setWriter(writer);
         //게시판 내용을 일단 db에 저장(idx를 얻어올수 있기떄문에 내용을 db에 저장해야함)
         boardpetService.insertBoardPet(dto);
+
+
 
         //파일이 있는 경우에만 해당, 네이버 스토리지에 저장후 파일저장(idx,filename 필요함)
         //반복문 안에서 이루어져야만한다.
@@ -157,11 +188,13 @@ public class BoardPetController {
 
         for(MultipartFile file:upload) {
             if (!file.isEmpty()) {
-                String filename = storageService.uploadFile(bucketName, " board_pet", file);
-                filedto.setIdx(dto.getIdx());
+                String filename = storageService.uploadFile(bucketName, "board_pet", file);
+
+                filedto.setBoard_idx(dto.getIdx());
                 filedto.setFilename(filename);
 
                 boardPetFileService.insertBoardPetFile(filedto);
+
             }
         }
 
@@ -170,7 +203,7 @@ public class BoardPetController {
     
     
     //게시글 수정
-    @PostMapping("/petupdate")
+    @GetMapping("/petupdate")
     public String updateBoardPet(@RequestParam int idx, @RequestParam int pageNum, Model model) {
 
         BoardPetDto dto = boardpetService.getSelectByIdx(idx);
@@ -182,10 +215,63 @@ public class BoardPetController {
         return "boardpet/boardpetupdateform";
 
     }
-    
+
+    //수정에서 사진 나오게
+    // 수정폼에서 기존 사진목록 나타냄
+    @GetMapping("/photolist")
+    @ResponseBody
+    public List<BoardPetFileDto> photoList(@RequestParam int idx) {
+
+        List<BoardPetFileDto> list = boardPetFileService.getFiles(idx);
+
+        return list;
+
+    }
+
+    // 수정폼에서 각각의 사진 삭제시
+    @GetMapping("/photodel")
+    @ResponseBody
+    public void deletePhoto(@RequestParam int idx) {
+
+        // 스토리지에 있는 파일명 얻기
+        String filename = boardPetFileService.getFilename(idx);
+        // 스토리지 에서 사진 삭제
+        storageService.deleteFile(bucketName, "board_pet", filename);
+
+        // 사진삭제
+        boardPetFileService.deleteFile(idx);
+    }
+
+    //수정 파일
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardPetDto dto, @RequestParam int pageNum,
+                         @RequestParam("upload") List<MultipartFile> upload) {
+        // 제목 및 내용 수정
+        boardpetService.updateBoardPet(dto);
+
+        // 사진은 추가
+        // 파일이 있는 경우에만 해당, 네이버 스토리지에 저장 후 파일저장(이때 필요한 게 idx, filename)***
+        // => 반복문 안에서 이루어져야 함
+        if (!upload.get(0).getOriginalFilename().equals("")) {
+
+            for (MultipartFile f : upload) {
+                String filename = storageService.uploadFile(bucketName, "board_pet", f);
+                BoardPetFileDto bdto = new BoardPetFileDto();
+                bdto.setBoard_idx(dto.getIdx());
+                bdto.setFilename(filename);
+
+                // boardfile에 insert
+                boardPetFileService.insertBoardPetFile(bdto); // 사진은 수정이 아니라 추가이므로 insertBoardFile(dto);
+            }
+        }
+
+        return "redirect:./petview?idx=" + dto.getIdx() + "&pageNum=" + pageNum;
+
+    }
     
     //게시글삭제
-    @PostMapping("/petdelete")
+    @GetMapping("/petdelete")
+    @ResponseBody
     public void deleteBoardPet(@RequestParam int idx) {
 
         // idx 에 해당하는 파일들 삭제
@@ -197,5 +283,7 @@ public class BoardPetController {
         }
 
         boardpetService.deleteBoardPet(idx);
+
+
     }
 }
