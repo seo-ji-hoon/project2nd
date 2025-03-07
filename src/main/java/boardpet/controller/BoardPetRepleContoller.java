@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/boardpet")
 public class BoardPetRepleContoller {
 
     @Autowired
@@ -27,31 +27,27 @@ public class BoardPetRepleContoller {
     final NcpObjectStorageService storageService;
 
     @PostMapping("/addreple")
+    @ResponseBody
     public void insertBoardReple(
             @RequestParam int idx,
             @RequestParam String message,
             @RequestParam("upload") MultipartFile upload,
             HttpSession session
     ) {
-        System.out.println("idx : "+idx);
         //네이버 스토리지에 사진 업로드
-        String uploadFilename=storageService.uploadFile(bucketName, "board", upload);
-
+        String uploadFilename=storageService.uploadFile(bucketName, " board_pet_reple", upload);
         //세션으로 부터 아이디를 얻는다
         String myid=(String)session.getAttribute("loginid");
 
-
         //dto 생성
         BoardPetRepleDto dto = new BoardPetRepleDto();
-
         dto.setMyid(myid);
-        dto.setIdx(idx);
+        dto.setBoard_idx(idx);
         dto.setMessage(message);
         dto.setPhoto(uploadFilename);
 
         //db_insert
         boardrepleServiceService.insertBoardPetReple(dto);
-
     }
 
     @GetMapping("/boardreplelist")
@@ -74,7 +70,7 @@ public class BoardPetRepleContoller {
         //dto 생성
         BoardPetRepleDto dto = new BoardPetRepleDto();
 
-       // dto.setNum(id);
+        dto.setIdx(id);
         dto.setMessage(message);
 
         //db_insert
@@ -84,18 +80,18 @@ public class BoardPetRepleContoller {
 
     @GetMapping("/deleteBoardReple")
     public void deleteBoardReple(
-            @RequestParam int num
+            @RequestParam int idx
     ) {
 
-        //String replePhoto=repleService.getSelectData(num).getPhoto();
+        /*String replePhoto=boardrepleServiceService.getSelectData(num).getPhoto();
         //null이 아닐경우 스토리지에서 삭제
-//		if(replePhoto!=null) {
-//			storageService.deleteFile(bucketName, "board", replePhoto);
-//		}
+		if(replePhoto!=null) {
+			storageService.deleteFile(bucketName, "board", replePhoto);
+		}*/
 
 
         //db_delete
-        //boardrepleService.deleteBoardReple(num);
+        boardrepleServiceService.deleteBoardReple(idx);
 
     }
 }

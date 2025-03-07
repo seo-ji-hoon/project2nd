@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Alias("BoardPetRepleDto")
 public class BoardPetRepleDto {
     private int idx;          // 댓글 고유 ID
-    private int boardIdx;     // 댓글이 속한 게시글 ID
+    private int board_idx;     // 댓글이 속한 게시글 ID
     private String myid;      // 댓글 작성자의 ID
     private String message;   // 댓글 내용
     private String photo;     // 댓글에 첨부된 사진 (선택적)
