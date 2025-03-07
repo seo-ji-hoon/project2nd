@@ -11,6 +11,10 @@
         select * from board_pet where idx=#{idx}
     </select>
 
+	<!-- 마이페이지에서 내가 쓴 글 조회용 -->
+	<select id="getSelectById" parameterType="String" resultType="BoardPetDto">
+		select * from board_pet where myid=#{myid}
+	</select>
 
     <insert id="insertBoardPet" parameterType="BoardPetDto">
         insert into board_pet (myid,writer,subject,content)

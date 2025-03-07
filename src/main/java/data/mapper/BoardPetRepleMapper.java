@@ -8,6 +8,8 @@ import data.dto.BoardPetRepleDto;
 
 @Mapper
 public interface BoardPetRepleMapper {
+	
+	//마이페이지에서 내가 쓴 댓글 노출 용도
+	public List<BoardPetRepleDto> getSelectRepleById(String myid);
 
-	public List<BoardPetRepleDto> getSelectById(String myid);
 }

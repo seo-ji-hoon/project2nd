@@ -16,11 +16,11 @@ public interface BoardPetMapper {
 
     public void deleteBoardPet(int idx);
 
-    List<BoardPetDto> getPagingList(int startNum, int perPage);
+    public List<BoardPetDto> getPagingList(int startNum, int perPage);
 
     public void updateReadCount(int idx);
 
-    List<BoardPetDto> getSelectById(String myid);
+    public List<BoardPetDto> getSelectById(String myid);
 
     public BoardPetDto getSelectByIdx (int idx);
 }

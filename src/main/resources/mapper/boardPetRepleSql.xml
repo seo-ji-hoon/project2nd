@@ -3,15 +3,20 @@
 <mapper namespace="data.mapper.BoardPetRepleMapper">
 
 	<!-- 마이페이지에서 내가 쓴 댓글-->
-	<select id="getSelectById" parameterType="String" resultType="BoardPetRepleDto">
-		select * from board_pet_reple where myid=#{myid}
+	<select id="getSelectRepleById" parameterType="String" resultType="BoardPetRepleDto">
+		SELECT 
+		r.idx,
+        r.board_idx,
+		r.myid,
+        r.message,
+        r.regroup,
+        r.relevel,
+        r.restep,
+        r.writeday,
+        b.subject AS board_subject
+    FROM board_pet_reple r, board_pet b
+    WHERE r.board_idx = b.idx and r.myid = #{myid}
+    order by r.writeday DESC;
 	</select>
 
 </mapper>
-
-
-
-
-
-
-

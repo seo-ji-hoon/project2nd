@@ -22,7 +22,10 @@
         
         }
         .myinfo{
-    		justify-content: center; /* 가로 중앙 정렬 */
+        	display: flex;
+    		justify-content: center;
+    		align-items: center;
+    		flex-direction: column; /* 요소들을 세로로 정렬 */
         	margin: 20px auto;
         }
         
@@ -32,15 +35,24 @@
     		justify-content: center; /* 가로 중앙 정렬 */
     		align-items: center;
     		font-size: 18px;
-    		margin: 20px auto;
     		text-align: center;
 		}
-		.tabmyboard{
+		.result{
+			width:700px;
+			margin: 30px auto;
+		}
+		
+		.tabmyboard thead tbody{
     		display: flex;
     		justify-content: center;
     		align-items: center;
     		flex-direction: column; /* 요소들을 세로로 정렬 */
     		margin: 30px auto; /* 가로 중앙 정렬 */
+    		text-align: center;
+		}
+		
+		.picon:hover {
+ 			color: green;
 		}
     </style>
     <script>
@@ -114,8 +126,9 @@
     </div>
   </div>
 </div>
+<!-- 모달 끝 -->
 
-
+<!-- 내 정보 노출 영역 -->
 <div style="margin: 30px 100px;" class="myinfo">
 	<%-- <img src="../save/${dto.mphoto}" class="profilelargephoto"
 	  onerror="this.src='../save/noimage.png'" style="float: left;"> --%>
@@ -189,44 +202,128 @@
 	</div>
 </div>
 
+<hr style="width: 700px;margin: 20px auto">
+
+<!-- 내가 쓴 글/내가 쓴 댓글 목록 영역 -->
 <div class="mylist">
-	<span class="myboardlist">내가 쓴 게시글</span> &nbsp;&nbsp;&nbsp;
-	<span class="myreplelist">내가 쓴 댓글</span>
+	<button type="button" id="myboard" class="btn btn-sm btn-success">내가 쓴 글</button>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" id="myreple" class="btn btn-sm btn-success">내가 쓴 댓글</button>
 </div>
  
-<div style="margin: 20px;width: 600px;" class="result">
- <table class="table table-bordered tabmyboard">
-  <thead>
-	<tr>
-		<th width="60">번호</th>
-		<th width="350">제목</th>
-		<th width="100">작성일</th>
-		<th>조회수</th>
-	</tr>
-  </thead>
-  <tbody>
-   <c:forEach var="dto" items="${list }" varStatus="i">
-	  <tr>
-		<td align="center">${i.count}</td>
-		<td>
-			<a href="../board/detail?idx=${dto.idx}" style="color: black;text-decoration: none">
-			
-			<!-- 이미지 있으면 아이콘 노출 -->
-			<i class="bi bi-image picon"></i>
-			${dto.subject }
-			
-		</td>
-		<td align="center">
-			<span style="font-size: 0.8em;">
-				<fmt:formatDate value="${dto.writeday }" pattern="yyyy-MM-dd"/>
-			</span>
-		</td>
-		<td align="center">${dto.readcount }</td>
-	  </tr>
-   </c:forEach>
-  </tbody>
- </table>
+<!-- 내가 쓴 글, 내가 쓴 댓글 목록 노출 영역 -->
+<div class="result">
+ 
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    function setupLoadMore(tableSelector) {
+        let rows = $(tableSelector + " tbody tr"); // 모든 행 가져오기
+        let rowsPerPage = 5; // 한 번에 표시할 행 개수
+        let currentIndex = 5; // 처음 5개는 보이도록 설정
+
+        rows.hide().slice(0, rowsPerPage).show(); // 처음 5개만 보이게 설정
+
+        // 기존 "더보기" 버튼 삭제 후 새로 추가
+        $("#loadMore").remove();
+        if (rows.length > rowsPerPage) {
+            $(".result").append('<button id="loadMore" class="btn btn-success mt-2">더보기</button>');
+            
+            $("#loadMore").click(function(){
+                rows.slice(currentIndex, currentIndex + rowsPerPage).fadeIn();
+                currentIndex += rowsPerPage;
+
+                // 모든 행이 노출되면 버튼 숨기기
+                if (currentIndex >= rows.length) {
+                    $(this).hide();
+                }
+            });
+        }
+    }
+
+    function renderBoardList() {
+        $(".result").html(`
+            <table class="table table-bordered tabmyboard">
+                <thead>
+                    <tr>
+                        <th width="60">번호</th>
+                        <th width="450">제목</th>
+                        <th width="100">작성일</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="dto" items="${list}" varStatus="i">
+                        <tr>
+                            <td align="center" width="60">${i.count}</td>
+                            <td>
+                                <a href="../board/detail?idx=${dto.idx}" style="color: black;text-decoration: none">
+                                    <i class="bi bi-image picon">${dto.subject}</i>
+                                </a>
+                            </td>
+                            <td align="center">
+                                <span style="font-size: 0.8em;">
+                                    <fmt:formatDate value="${dto.writeday}" pattern="yyyy-MM-dd"/>
+                                </span>
+                            </td>
+                            <td align="center">${dto.readcount}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        `);
+        setupLoadMore(".tabmyboard");
+    }
+
+    function renderRepleList() {
+        $(".result").html(`
+            <table class="table table-bordered tabmyboard">
+                <thead>
+                    <tr>
+                        <th width="60">번호</th>
+                        <th width="250">댓글 내용</th>
+                        <th width="100">작성일</th>
+                        <th>원제목</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="dto" items="${repleList}" varStatus="i">
+                        <tr>
+                            <td align="center" width="60">${i.count}</td>
+                            <td>${dto.message}</td>
+                            <td align="center">
+                                <span style="font-size: 0.8em;">
+                                    <fmt:formatDate value="${dto.writeday}" pattern="yyyy-MM-dd"/>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="../board/detail?idx=${dto.board_idx}" style="color: black;text-decoration: none">
+                                    ${dto.board_subject}
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        `);
+        setupLoadMore(".tabmyboard");
+    }
+
+    // 페이지 로드 시 "내가 쓴 글" 자동 표시
+    renderBoardList();
+
+    // 내가 쓴 글 버튼 클릭 시
+    $("#myboard").click(function(){
+        renderBoardList();
+    });
+
+    // 내가 쓴 댓글 버튼 클릭 시
+    $("#myreple").click(function(){
+        renderRepleList();
+    });
+});
+</script>
 
 </body>
 </html>
