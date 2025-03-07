@@ -29,7 +29,7 @@ public class BoardPetRepleService {
 
 		return boardPetRepleMapper.getboardReplePetByIdx(idx);
 	}
-
+	
 	/*댓글사진*/
 	public String getboardPetPhoto(int idx) {
 		return boardPetRepleMapper.getboardPetPhoto(idx);

@@ -93,6 +93,7 @@
                 form.append("upload",file);
                 form.append("message",m);
                 form.append("idx",${dto.idx});
+                form.append("board_idx",${dto.idx});
 
                 $.ajax({
                     type:"post",
@@ -134,13 +135,13 @@
                             `
                 	<div class="item" style="margin-bottom:5px;" data-repleid="\${item.id}">
 			            <span class="day">\${item.myid}</span>
-            			<img src="${naverurl}/board/\${item.photo}" class="photo"
+            			<img src="${naverurl}/board_pet_reple/\${item.photo}" class="photo"
                  			data-bs-toggle="modal" data-bs-target="#myRepleModal" style="width:30px;">
             			<span class="message-text">\${item.message}</span>
 			            <span class="day">\${item.writeday}</span>
-			            <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.num}"
+			            <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
 			                    data-message="\${item.message}" data-photo="\${item.photo}">댓글수정</button>
-			            <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.num}">댓글삭제</button>
+			            <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.idx}">댓글삭제</button>
 			        </div>`;
                     });
 
@@ -167,7 +168,7 @@
             let editHtml = `
 		        <div class="item">
 		            <div style="display: flex; align-items: center;">
-		                <img src="${naverurl}/board/\${photo}" class="mini edit-photo" style="width: 30px; margin-right: 5px;">
+		                <img src="${naverurl}/board_pet_reple/\${photo}" class="mini edit-photo" style="width: 30px; margin-right: 5px;">
 		                <button class="btn btn-danger btn-sm delete-photo">X</button>
 		            </div>
 		            <textarea class="form-control edit-message">\${message}</textarea>
@@ -195,10 +196,9 @@
                 "deletePhoto": hasPhoto ? "false" : "true" // 사진이 삭제되었는지 여부
             };
 
-            console.log(data);
 
             $.ajax({
-                type: "POST",
+                type: "post",
                 url: "./updateReple",
                 data: data,
                 success: function (res) {
@@ -225,7 +225,7 @@
                 type:"get",
                 dataType:"text",
                 data:{
-                    "num": repleId,
+                    "idx": repleId,
                 },
                 url:"./deleteBoardReple",
                 success:function(){
@@ -295,7 +295,7 @@
                             success:function(){
                                 alert("삭제되었습니다.");
                                 //삭제 성공후 목록으로 이동
-                                location.href="./list?pageNum="+${pageNum};
+                                location.href="./petview?pageNum="+${pageNum};
                             }
                         });
                     }
