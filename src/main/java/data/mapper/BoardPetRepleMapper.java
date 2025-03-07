@@ -7,10 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface BoardPetRepleMapper {
-	
-	
-	public List<BoardPetRepleDto> getSelectRepleById(String myid);
 
+	public List<BoardPetRepleDto> getSelectRepleById(String myid);
 	/*댓글등록*/
 	public void insertBoardPetReple(BoardPetRepleDto dto);
 
