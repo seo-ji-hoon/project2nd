@@ -16,8 +16,13 @@
     	body *{
             font-family: 'Jua';
         }
-        .tab1{
-        	
+        .mlist{
+        	width:650px;
+    		display: flex;
+    		flex-direction: column;
+    		align-items: center;
+    		justify-content: center;
+    		margin: 0 auto;
         }
         img.small{
         	width: 30px;
@@ -30,7 +35,7 @@
 <body>
 <jsp:include page="../../layout/title.jsp"/>
 
-<div style="margin:20px;width: 650px;">
+<div class="mlist">
 	<table class="tab1 table table-bordered">
 		<thead>
 			<tr>
@@ -44,10 +49,9 @@
 		<tbody>
 			<c:forEach var="dto" items="${list }">
 				<tr>
-					<td><
-						<input type="checkbox" class="numchk" num="${dto.num}">
+					<td>
 						<img src="${naverurl}/member2/${dto.mphoto}" class="small"
-						onerror="this.src='${root}/noimage.png'">
+						onerror="this.src='${root}/noimage.png'" num="${dto.num}">
 						${dto.mname}
 					</td>
 					<td>${dto.myid}</td>
@@ -70,50 +74,30 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<button type="button" class="btn btn-sm btn-info"
-	style="margin: 20px;" id="delmember">선택한 멤버 강제 탈퇴</button>
 </div>
 <script type="text/javascript">
-	//체크값 전달
-	$(".allchk").click(function(){
-		let chk=$(this).is(":checked");
-		//alert(chk);
-		$(".numchk").prop("checked",chk);
-	});
-	
-	//선택한 멤버 강제 탈퇴
-	$("#delmember").click(function(){
-		//체크된 회원수
-		let len=$(".numchk:checked").length;
-		//alert(len);
-		if(len==0){
-			alert("탈퇴시킬 멤버를 체크해주세요");
-			return;
-		}
-		let nums="";
-		$(".numchk:checked").each(function(idx,item) {
-			nums+=$(this).attr("num")+",";
-		});
-		//마지막 컴마 제거하기
-		nums=nums.substring(0,nums.length-1);
-		//alert(nums);
-		
-		if(!confirm("체크된 멤버를 정말 탈퇴시킬까요?")){
-			return;
-		}
-		
-		$.ajax({
-			type:"get",
-			dataType:"text",
-			data:{"nums":nums},
-			url:"./checkdel",
-			success:function(){
-				location.reload();
-			}
-		});
-		
-	});
-</script>
-	
+    $(document).ready(function(){
+        let rows = $("tbody tr"); // 모든 행 가져오기
+        let rowsPerPage = 5; // 한 번에 보여줄 행 개수
+        let currentIndex = 0; // 현재 인덱스
+
+        // 처음 5개만 보이게 설정
+        rows.hide().slice(0, rowsPerPage).show();
+
+        // 더보기 버튼 추가
+        $(".mlist").append('<button id="loadMore" class="btn btn-success mt-2">더보기</button>');
+        
+        // 더보기 버튼 클릭 이벤트
+        $("#loadMore").click(function(){
+            currentIndex += rowsPerPage;
+            rows.slice(currentIndex, currentIndex + rowsPerPage).fadeIn();
+            
+            // 더 이상 보여줄 행이 없으면 버튼 숨김
+            if (currentIndex + rowsPerPage >= rows.length) {
+                $(this).hide();
+            }
+        });
+    });
+</script>	
 </body>
 </html>

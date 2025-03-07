@@ -1,19 +1,17 @@
 package data.service;
 
-import data.dto.BoardPetRepleDto;
-import data.mapper.BoardPetRepleMapper;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import data.dto.BoardPetRepleDto;
+import data.mapper.BoardPetRepleMapper;
+
 @Service
-@AllArgsConstructor
 public class BoardPetRepleService {
 	
 	BoardPetRepleMapper boardPetRepleMapper;
 	
-	/*마이페이지 아이디연결*/
 	public List<BoardPetRepleDto> getSelectById(String myid)
 	{
 		return boardPetRepleMapper.getSelectById(myid);
@@ -30,7 +28,7 @@ public class BoardPetRepleService {
 
 		return boardPetRepleMapper.getboardReplePetByIdx(idx);
 	}
-	
+
 	/*댓글사진*/
 	public String getboardPetPhoto(int idx) {
 		return boardPetRepleMapper.getboardPetPhoto(idx);
@@ -44,5 +42,5 @@ public class BoardPetRepleService {
 	public void deleteBoardReple(int idx) {
 		boardPetRepleMapper.deleteBoardPetReple(idx);
 	}
-	
+
 }

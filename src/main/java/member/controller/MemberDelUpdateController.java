@@ -46,16 +46,20 @@ public class MemberDelUpdateController {
 		String myid=(String)session.getAttribute("loginid");
 		//아이디에 해당해당하는 dto얻기
 		MemberPetDto dto=memberPetService.getSelectByMyid(myid);
+		BoardPetRepleDto brdto=new BoardPetRepleDto();
 		
 		//내가 쓴 글 가져오기
 		List<BoardPetDto> list=boardPetSeravice.getSelectById(myid);
 		//내가 쓴 댓글 가져오기
-		//List<BoardPetRepleDto> repleList=boardPetRepleService.getSelectById(myid);
+		List<BoardPetRepleDto> repleList=boardPetRepleService.getSelectRepleById(myid);
+		//댓글에 있는 repleDto 안에 있는 board_idx에 해당하는 subject를 가져와야하는데... 흠....
+		
 		
 		//모델에 dto 저장
 		model.addAttribute("dto", dto);
 		model.addAttribute("list",list);
-		//model.addAttribute("repleList",repleList);
+		model.addAttribute("repleList",repleList);
+		model.addAttribute("brdto",brdto);
 		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/bitcamp-bucket-110");
 		return "member/mypage";
 	}

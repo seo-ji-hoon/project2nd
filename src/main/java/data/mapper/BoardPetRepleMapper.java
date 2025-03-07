@@ -1,9 +1,10 @@
 package data.mapper;
 
-import data.dto.BoardPetRepleDto;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import data.dto.BoardPetRepleDto;
 
 @Mapper
 public interface BoardPetRepleMapper {
