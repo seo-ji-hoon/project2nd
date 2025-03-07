@@ -195,7 +195,7 @@
 			</li>
 		</c:if>
 		<li>
-			<a href="${root}/dictionary/list">백과사전</a>
+			<a href="${root}/dictionary/dictionarylist">백과사전</a>
 		</li>
 	</ul>
 	

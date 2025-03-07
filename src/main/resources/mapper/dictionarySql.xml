@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.DictionaryMapper">
+	<!-- 게시판의 전체 글 개수 조회 -->
+    <select id="getTotalCount" resultType="int">
+        select count(*) from dictionary
+    </select>
+	
+	<select id="getSelectByIdx" parameterType="int" resultType="DictionaryDto">
+        select * from dictionary where idx=#{idx}
+    </select>
+    
+    <!-- 전체 목록 조회 -->
+    <select id="getAllDictionary" resultType="DictionaryDto">
+    	select * from dictionary order by idx;
+    </select>
+	
+	<!-- 마이페이지에서 내가 쓴 백과 조회용 -->
+	<select id="getSelectById" parameterType="String" resultType="DictionaryDto">
+		select * from dictionary where myid=#{myid}
+	</select>
+	
+	<!-- 추가 -->
+	<insert id="insertDictionary" parameterType="DictionaryDto">
+        insert into dictionary (myid,writer,subject,content)
+        values (#{myid},#{writer},#{subject},#{content})
+
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="updateDictionary" parameterType="DictionaryDto">
+        update dictionary set subject=#{subject},content=#{content} where idx=#{idx}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="deleteDictionary" parameterType="int">
+        delete from dictionary where idx=#{idx}
+    </delete>
+
+    <!-- 특정 게시글의 조회수를 1 증가시키는 쿼리 -->
+    <update id="updateReadCount" parameterType="int">
+        update dictionary set readcount=readcount+1 where idx=#{idx}
+    </update>
+</mapper>
