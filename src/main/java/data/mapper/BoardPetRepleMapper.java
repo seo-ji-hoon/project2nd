@@ -1,15 +1,14 @@
 package data.mapper;
 
-import java.util.List;
-
+import data.dto.BoardPetRepleDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import data.dto.BoardPetRepleDto;
+import java.util.List;
 
 @Mapper
 public interface BoardPetRepleMapper {
 
-	public List<BoardPetRepleDto> getSelectById(String myid);
+	public List<BoardPetRepleDto> getSelectRepleById(String myid);
 
 	/*댓글등록*/
 	public void insertBoardPetReple(BoardPetRepleDto dto);

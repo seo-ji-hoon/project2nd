@@ -2,18 +2,19 @@ package data.service;
 
 import data.dto.BoardPetRepleDto;
 import data.mapper.BoardPetRepleMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class BoardPetRepleService {
-	
+	@Autowired
 	BoardPetRepleMapper boardPetRepleMapper;
 	
-	public List<BoardPetRepleDto> getSelectById(String myid)
+	public List<BoardPetRepleDto> getSelectRepleById(String myid)
 	{
-		return boardPetRepleMapper.getSelectById(myid);
+		return boardPetRepleMapper.getSelectRepleById(myid);
 	}
 
 	/*댓글등록*/
@@ -41,5 +42,6 @@ public class BoardPetRepleService {
 	public void deleteBoardReple(int idx) {
 		boardPetRepleMapper.deleteBoardPetReple(idx);
 	}
+
 
 }
