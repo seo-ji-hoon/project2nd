@@ -41,8 +41,8 @@ public class BoardPetController {
     {
 
         //페이징처리
-        int perPage=3;//한페이지당 출력할 글의 갯수
-        int perBlock=3;//한 블럭당 출력할 페이지 갯수
+        int perPage=5;//한페이지당 출력할 글의 갯수
+        int perBlock=5;//한 블럭당 출력할 페이지 갯수
         int totalCount;//전체 게시글 갯수
         int totalPage;//총 페이지수
         int startNum;//각 페이지에서 가져올 시작번호 (mysql은 첫 데이타가 0번,오라클은 1번)
@@ -126,7 +126,6 @@ public class BoardPetController {
     }
 
 
-    /// ///////////////////////////
 
     @GetMapping("/petview")
     public String petview (@RequestParam int idx, @RequestParam(defaultValue = "1") int pageNum, Model model){
@@ -229,6 +228,19 @@ public class BoardPetController {
 
     }
 
+    // 수정폼에서 각각의 사진 삭제시
+    @GetMapping("/photodel")
+    @ResponseBody
+    public void deletePhoto(@RequestParam int idx) {
+
+        // 스토리지에 있는 파일명 얻기
+        String filename = boardPetFileService.getFilename(idx);
+        // 스토리지 에서 사진 삭제
+        storageService.deleteFile(bucketName, "board_pet", filename);
+
+        // 사진삭제
+        boardPetFileService.deleteFile(idx);
+    }
 
     //수정 파일
     @PostMapping("/update")
@@ -245,7 +257,7 @@ public class BoardPetController {
             for (MultipartFile f : upload) {
                 String filename = storageService.uploadFile(bucketName, "board_pet", f);
                 BoardPetFileDto bdto = new BoardPetFileDto();
-                bdto.setIdx(dto.getIdx());
+                bdto.setBoard_idx(dto.getIdx());
                 bdto.setFilename(filename);
 
                 // boardfile에 insert
@@ -258,7 +270,8 @@ public class BoardPetController {
     }
     
     //게시글삭제
-    @PostMapping("/petdelete")
+    @GetMapping("/petdelete")
+    @ResponseBody
     public void deleteBoardPet(@RequestParam int idx) {
 
         // idx 에 해당하는 파일들 삭제
@@ -270,5 +283,7 @@ public class BoardPetController {
         }
 
         boardpetService.deleteBoardPet(idx);
+
+
     }
 }

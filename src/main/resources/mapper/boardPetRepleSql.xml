@@ -7,6 +7,33 @@
 		select * from board_pet_reple where myid=#{myid}
 	</select>
 
+	<!--댓글등록 & 댓글의 댓글-->
+	<insert id="insertBoardPetReple" parameterType="BoardPetRepleDto">
+		insert into board_pet_reple (board_idx, myid, message, photo, regroup, relevel, restep, writeday)
+		values (#{board_idx}, #{myid}, #{message}, #{photo}, #{regroup}, #{relevel}, #{restep}, now());
+	</insert>
+
+	<!--댓글 순서-->
+	<select id="getboardReplePetByNum" parameterType="int" resultType="BoardPetRepleDto">
+		select * from boardreple where board_idx=#{board_idx} order by idx desc
+	</select>
+
+	<!--댓글사진-->
+	<select id="getboardPetPhoto" parameterType="int" resultType="String">
+		select photo from boardreple where idx=#{idx}
+	</select>
+
+	<!-- 댓글수정 -->
+	<update id="updateBoardPetReple" parameterType="BoardPetRepleDto">
+		update boardreple set message=#{message} where idx=#{idx}
+	</update>
+
+	<!-- 댓글삭제 -->
+	<delete id="deleteBoardReple" parameterType="int">
+		delete from boardreple where idx=#{idx}
+	</delete>
+
+
 </mapper>
 
 

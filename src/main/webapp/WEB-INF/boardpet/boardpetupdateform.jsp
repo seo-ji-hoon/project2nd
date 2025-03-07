@@ -18,6 +18,18 @@
             font-family: 'Jua';
         }
 
+        .photos{
+            margin-bottom: 10px;
+        }
+
+        .photos img {
+            width: 40px;
+            height: 40px;
+            border: 1px solid gray;
+            border-radius: 20px;
+            margin-right: 5px;
+        }
+
 
     </style>
 
@@ -28,12 +40,13 @@
 
             //개별사진 삭제
             $(document).on("click",".delicon",function(){
-                //아이콘에 넣어둔 num 얻기
-                let num=$(this).attr("num");
+                //아이콘에 넣어둔 idx 얻기
+                let idx=$(this).attr("idx");
+
                 $.ajax({
                     type:"get",
                     dataType:"text",
-                    data:{"num":num},
+                    data:{"idx":idx},
                     url:"./photodel",
                     success:function(res){
                         //사진 삭제후 사진목록 다시 출력
@@ -61,7 +74,7 @@
                         s+=
                             `
 							<img src="\${url}/board_pet/\${item.filename}">
-							<i class="bi bi-x-circle delicon" num="\${item.num}"></i>
+							<i class="bi bi-x-circle delicon" idx="\${item.idx}"></i>
 						`
                     });
                     $(".photos").html(s);
@@ -112,7 +125,7 @@
                             style="width: 100px;">글수정</button>
 
                     <button type="button" class="btn btn-outline-secondary"
-                            style="width: 100px;" onclick="location.href='./detail?idx=${dto.idx}&pageNum=${pageNum }'">이전으로</button>
+                            style="width: 100px;" onclick="location.href='./petview?idx=${dto.idx}&pageNum=${pageNum }'">이전으로</button>
                 </td>
             </tr>
             </tbody>
