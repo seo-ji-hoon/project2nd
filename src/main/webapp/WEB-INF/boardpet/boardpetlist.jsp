@@ -42,6 +42,14 @@
     </style>
 </head>
 <body>
+<!-- 커뮤니티 게시판 로그인 안했을시 경고창 -->
+<c:if test="${sessionScope.loginstatus==null }">
+    <script type="text/javascript">
+        alert("회원게시판입니다\n먼저 로그인해주세요.");
+        history.back();
+    </script>
+</c:if>
+
 <jsp:include page="../../layout/title.jsp"/>
 
 <div style="margin:20px; width:700px;">
@@ -75,7 +83,7 @@
             <c:forEach var="dto" items="${list}">
                 <tr>
                     <td align="center">
-                            ${no}
+                            ${no}/${dto.idx}
                         <c:set var="no" value="${no-1}"/>
                     </td>
                     <td>

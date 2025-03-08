@@ -12,4 +12,5 @@ public interface BoardPetFileMapper {
     public List<BoardPetFileDto> getFiles (int idx);
     public void deleteFile(int num);
     public String getFilename(int num);
+    public String getBoardFileimge(int idx);
 }

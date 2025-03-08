@@ -37,10 +37,8 @@
 
     <!-- 리스트 (feat.페이징) -->
     <select id="getPagingList" parameterType="Map" resultType="BoardPetDto">
-        select board.*, board_file.filename
-        from board_pet board left join board_pet_file board_file
-        on board.idx = board_file.board_idx
-        order by idx desc limit #{startNum},#{perPage}
+        select * from board_pet order by idx desc limit #{startNum},#{perPage}
+        <!--select * from board_pet order by regroup desc,restep asc limit #{start},#{perpage}-->
     </select>
 
     <!-- 특정 게시글의 조회수를 1 증가시키는 쿼리 -->

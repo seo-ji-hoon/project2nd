@@ -246,6 +246,7 @@
     </script>
 </head>
 <body>
+
 <jsp:include page="../../layout/title.jsp"/>
 <div style="margin: 30px;">
     <h3><b>${dto.subject }</b></h3>

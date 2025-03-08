@@ -22,6 +22,13 @@
         select filename from board_pet_file where idx=#{idx}
     </select>
 
+    <!--특정게시판 사진(이미지) 조회하는 SQL-->
+    <select id="getBoardFileimge" parameterType="int" resultType="String">
+        select filename from board_pet_file where board_idx=#{idx} order by idx limit 1;
+    </select>
+
+   <!-- select * from board order by regroup desc,restep asc limit #{start},#{perpage}-->
+
 </mapper>
 
 
