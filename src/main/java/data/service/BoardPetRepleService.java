@@ -1,6 +1,7 @@
 package data.service;
 
 import data.dto.BoardPetRepleDto;
+import data.dto.DictionaryRepleDto;
 import data.mapper.BoardPetRepleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class BoardPetRepleService {
 	public String getboardPetPhoto(int idx) {
 		return boardPetRepleMapper.getboardPetPhoto(idx);
 	}
+	
 	/*댓글수정*/
 	public void updateBoardReple(BoardPetRepleDto dto) {
 		boardPetRepleMapper.updateBoardPetReple(dto);

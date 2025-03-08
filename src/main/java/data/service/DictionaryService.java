@@ -28,18 +28,18 @@ public class DictionaryService {
         return dictionaryMapper.getSelectById(myid);
     }
 
-    public void insertBoardPet(DictionaryDto dto) {
+    public void insertDictionary(DictionaryDto dto) {
 
         //db insert
-    	dictionaryMapper.insertBoardPet(dto);
+    	dictionaryMapper.insertDictionary(dto);
     }
 
-    public void updateBoardPet(DictionaryDto dto){
-    	dictionaryMapper.updateBoardPet(dto);
+    public void updateDictionary(DictionaryDto dto){
+    	dictionaryMapper.updateDictionary(dto);
     }
 
-    public void deleteBoardPet(int idx){
-    	dictionaryMapper.deleteBoardPet(idx);
+    public void deleteDictionary(int idx){
+    	dictionaryMapper.deleteDictionary(idx);
     }
 
     //조회수

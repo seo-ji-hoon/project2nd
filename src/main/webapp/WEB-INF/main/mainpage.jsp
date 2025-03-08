@@ -59,7 +59,7 @@
 		<h5><b>동물백과</b></h5>
 		<h6>담당자가 공유해주는 다양한 동물정보</h6>
 		<button type="button" class="btn btn-success"
-		onclick="location.href='${root}/dictionary/list'">동물백과</button>
+		onclick="location.href='${root}/dictionary/dictionarylist'">동물백과</button>
 	</div>
 </div>
 </body>

@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.DictionaryRepleMapper">
+	<!-- 마이페이지에서 내가 쓴 댓글-->
+	<select id="getSelectRepleById" parameterType="String" resultType="DictionaryRepleDto">
+		SELECT
+		r.idx,
+        r.diction_idx,
+		r.myid,
+        r.message,
+        r.writeday,
+        d.subject AS diction_subject
+    FROM dictionary_reple r, dictionary d
+    WHERE r.diction_idx = d.idx and r.myid = #{myid}
+    order by r.writeday DESC;
+	</select>
+	
+	<!-- 추가 -->
+	<insert id="insertReple" parameterType="DictionaryRepleDto">
+		insert into dictionary_reple (diction_idx,myid,message,photo,writeday)
+		values (#{diction_idx},#{myid},#{message},#{photo},now())
+	</insert>
+	
+	<!--댓글등록-->
+	<insert id="insertDictionReple" parameterType="DictionaryRepleDto">
+		insert into dictionary_reple (diction_idx, myid, message, photo, writeday)
+		values (#{diction_idx}, #{myid}, #{message}, #{photo}, now());
+	</insert>
 
+	<!--댓글 순서-->
+	<select id="getDictionRepleByIdx" parameterType="int" resultType="DictionaryRepleDto">
+		select * from dictionary_reple where diction_idx=#{diction_idx} order by num desc
+	</select>
+	
+	<!-- 댓글 조회 -->
+	<select id="getSelectData" parameterType="int" resultType="DictionaryRepleDto">
+		select * from dictionary_reple where num=#{num}
+	</select>
+	
+	<!--댓글사진-->
+	<select id="getDictionPhoto" parameterType="int" resultType="String">
+		select photo from dictionary_reple where num=#{num}
+	</select>
 
+	<!-- 댓글수정 -->
+	<update id="updateDictionReple" parameterType="DictionaryRepleDto">
+		update dictionary_reple set message=#{message} where num=#{num}
+	</update>
+
+	<!-- 댓글삭제 -->
+	<delete id="deleteDictionReple" parameterType="int">
+		delete from dictionary_reple where num=#{num}
+	</delete>
 </mapper>

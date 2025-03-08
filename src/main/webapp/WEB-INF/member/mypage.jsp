@@ -258,7 +258,7 @@ $(document).ready(function(){
                         <tr>
                             <td align="center" width="60">${i.count}</td>
                             <td>
-                                <a href="../board/detail?idx=${dto.idx}" style="color: black;text-decoration: none">
+                                <a href="../boardpet/petview?idx=${dto.idx}" style="color: black;text-decoration: none">
                                     <i class="bi bi-image picon">${dto.subject}</i>
                                 </a>
                             </td>
@@ -298,7 +298,7 @@ $(document).ready(function(){
                                 </span>
                             </td>
                             <td>
-                                <a href="../board/detail?idx=${dto.board_idx}" style="color: black;text-decoration: none">
+                                <a href="../boardpet/petview?idx=${dto.board_idx}" style="color: black;text-decoration: none">
                                     ${dto.board_subject}
                                 </a>
                             </td>
