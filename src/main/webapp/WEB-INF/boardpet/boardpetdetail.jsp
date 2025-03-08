@@ -247,6 +247,7 @@
 </head>
 <body>
 <jsp:include page="../../layout/title.jsp"/>
+
 <div style="margin: 30px;">
     <h3><b>${dto.subject }</b></h3>
     <img alt="" src="${naverurl}/member2/${memberPhoto }" class="profilePhoto" align="left"

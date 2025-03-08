@@ -203,7 +203,7 @@ public class BoardPetController {
     
     
     //게시글 수정
-    @GetMapping("/petupdate")
+    @GetMapping("/dictionaryupdate")
     public String updateBoardPet(@RequestParam int idx, @RequestParam int pageNum, Model model) {
 
         BoardPetDto dto = boardpetService.getSelectByIdx(idx);
