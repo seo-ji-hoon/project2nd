@@ -42,6 +42,14 @@
     </style>
 </head>
 <body>
+<!-- 커뮤니티 게시판 로그인 안했을시 경고창 -->
+<c:if test="${sessionScope.loginstatus==null }">
+    <script type="text/javascript">
+        alert("회원게시판입니다\n먼저 로그인해주세요.");
+        history.back();
+    </script>
+</c:if>
+
 <jsp:include page="../../layout/title.jsp"/>
 
 <div style="margin:20px; width:700px;">
@@ -75,7 +83,7 @@
             <c:forEach var="dto" items="${list}">
                 <tr>
                     <td align="center">
-                            ${no}
+                            ${no}/${dto.idx}
                         <c:set var="no" value="${no-1}"/>
                     </td>
                     <td>
@@ -112,25 +120,25 @@
         <ul class="pagination" style="margin-left : 200px; font-size : 0.8em;">
             <c:if test="${startPage>1}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${startPage-1}">Prev</a>
+                    <a class="page-link" href="./boardpetlist?pageNum=${startPage-1}">Prev</a>
                 </li>
             </c:if>
             <c:forEach var="pp" begin="${startPage}" end="${endPage}">
                 <c:if test="${pp==pageNum}">
                     <li class="page-item active">
-                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                        <a class="page-link" href="./boardpetlist?pageNum=${pp}">${pp}</a>
                     </li>
                 </c:if>
 
                 <c:if test="${pp!=pageNum}">
                     <li class="page-item">
-                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                        <a class="page-link" href="./boardpetlist?pageNum=${pp}">${pp}</a>
                     </li>
                 </c:if>
             </c:forEach>
             <c:if test="${endPage<totalPage}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${endPage+1}">Next</a>
+                    <a class="page-link" href="./boardpetlist?pageNum=${endPage+1}">Next</a>
                 </li>
             </c:if>
         </ul>

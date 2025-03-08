@@ -31,4 +31,8 @@ public class BoardPetFileService {
 
         return boardPetFileMapper.getFilename(num);
     }
+
+    public String getBoardFileimge(int idx){
+        return boardPetFileMapper.getBoardFileimge(idx);
+    }
 }

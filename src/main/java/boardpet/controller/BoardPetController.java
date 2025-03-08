@@ -74,15 +74,13 @@ public class BoardPetController {
             return "redirect:./boardpetlist?pageNum="+(pageNum-1);
         }
 
-        //list 의 각 dto에 사진 갯수 지정하기
-//        for(int i=0; i<list.size();i++) {
-//
-//            BoardDto dto = list.get(i);
-//            int count=fileService.getFiles(dto.getIdx()).size();
-//            list.get(i).setPhotoCount(count);
-//            //int repleCount=repleService.getSelectReples(dto.getIdx()).size();//댓글갯수
-//            list.get(i).setRepleCount(count);
-//        }
+        //게시글에 대표사진을 1개 list에 출력
+        for(int i=0; i<list.size();i++) {
+            
+            BoardPetDto dto = list.get(i);
+            String filename=boardPetFileService.getBoardFileimge(dto.getIdx());
+            list.get(i).setFileName(filename);
+        }
 
         //각페이지의 글앞에 출력할 시작번호(예: 총글이 20개일 경우 1페이지는 20,2페이즈는 15..)
         no=totalCount-(pageNum-1)*perPage;
@@ -286,4 +284,14 @@ public class BoardPetController {
 
 
     }
+
+
+
+    // 좋아요 기능
+    @PostMapping("/update-like")
+    @ResponseBody
+    public void updateLike(@RequestParam int idx) {
+        boardpetService.updateBoardLikes(idx);
+    }
+
 }

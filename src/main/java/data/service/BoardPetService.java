@@ -53,4 +53,8 @@ public class BoardPetService {
     public void updateReadCount (int idx) {
         boardPetMapper.updateReadCount(idx);
     }
+
+    public void updateBoardLikes(int idx) {
+        boardPetMapper.updateBoardLikes(idx);
+    }
 }

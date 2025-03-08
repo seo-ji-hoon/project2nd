@@ -230,7 +230,7 @@
 		});
 		
 		//로그아웃 클릭 시 이벤트
-		$(".titlemember #logout").click(function(){
+		$("#titlemember #logout").click(function(){
 			$.ajax({
 				type:"get",
 				dataType:"text",
