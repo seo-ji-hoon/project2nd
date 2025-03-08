@@ -120,25 +120,25 @@
         <ul class="pagination" style="margin-left : 200px; font-size : 0.8em;">
             <c:if test="${startPage>1}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${startPage-1}">Prev</a>
+                    <a class="page-link" href="./boardpetlist?pageNum=${startPage-1}">Prev</a>
                 </li>
             </c:if>
             <c:forEach var="pp" begin="${startPage}" end="${endPage}">
                 <c:if test="${pp==pageNum}">
                     <li class="page-item active">
-                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                        <a class="page-link" href="./boardpetlist?pageNum=${pp}">${pp}</a>
                     </li>
                 </c:if>
 
                 <c:if test="${pp!=pageNum}">
                     <li class="page-item">
-                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                        <a class="page-link" href="./boardpetlist?pageNum=${pp}">${pp}</a>
                     </li>
                 </c:if>
             </c:forEach>
             <c:if test="${endPage<totalPage}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${endPage+1}">Next</a>
+                    <a class="page-link" href="./boardpetlist?pageNum=${endPage+1}">Next</a>
                 </li>
             </c:if>
         </ul>
