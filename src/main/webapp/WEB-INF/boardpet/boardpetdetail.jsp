@@ -104,7 +104,7 @@
                     contentType:false,
                     success:function(){
                         alert("댓글이 등록되었습니다.");
-                        $("#repletextarea").val("");  // 입력 필드 초기화
+                        $("#message").val("");  // 입력 필드 초기화
                         file = null;
                         $("#photoupload").val(""); // 파일 선택 초기화
                         replelist(); // 댓글 목록 새로고침
@@ -152,14 +152,7 @@
                     `;
                     }
                 });
-                    /*
-                    *
-                    *
-                    * <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
-			                    data-message="\${item.message}" data-photo="\${item.photo}">댓글수정</button>
-			            <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.idx}">댓글삭제</button>
-                    *
-                    * */
+
                     s+="</div>";
                     $("div.replelist").html(s);
                 }
