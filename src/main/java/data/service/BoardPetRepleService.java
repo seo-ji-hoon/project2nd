@@ -40,7 +40,7 @@ public class BoardPetRepleService {
 
 	/*댓글삭제*/
 	public void deleteBoardReple(int idx) {
-		boardPetRepleMapper.deleteBoardPetReple(idx);
+		boardPetRepleMapper.deleteBoardReple(idx);
 	}
 
 

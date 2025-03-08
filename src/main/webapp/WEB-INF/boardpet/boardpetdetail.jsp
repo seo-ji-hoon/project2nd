@@ -311,7 +311,7 @@
                             type:"get",
                             dataType:"text",
                             data:{"idx":${dto.idx}},
-                            url:"./petdelete",
+                            url:"./deleteBoardReple",
                             success:function(){
                                 alert("삭제되었습니다.");
                                 //삭제 성공후 목록으로 이동
