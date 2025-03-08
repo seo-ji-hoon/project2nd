@@ -243,6 +243,24 @@
             //모달에 넣기
             $(".modalphoto").attr("src",imgSrc);
         });
+
+        // 클릭 시 좋아요 +1
+        function likes(idx) {
+            // 1. 데이터 셋팅
+            var data = {
+                "idx" : idx
+            };
+
+            // 2. ajax 호출 (+1) -> 하트 눌렀어요
+            $.ajax({
+                type: "post",
+                url: "./update-like",
+                data: data,
+                success: function (res) {
+                    alert("좋아요 눌렀어요~");
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -250,13 +268,14 @@
 <jsp:include page="../../layout/title.jsp"/>
 <div style="margin: 30px;">
     <h3><b>${dto.subject }</b></h3>
-    <img alt="" src="${naverurl}/member2/${memberPhoto }" class="profilePhoto" align="left"
+    <img alt="" src="${naverurl}/member2/${memberPhoto}" class="profilePhoto" align="left"
          onerror="this.src='${root}/noimage.png'">
     <span>${dto.writer }</span><br>
     <span class="day">
 			<fmt:formatDate value="${dto.writeday }" pattern="yyyy-MM-dd HH:mm"/>
 			&nbsp;&nbsp;
 			조회&nbsp;${dto.readcount}
+            <input type="button" value="♡" onClick="likes(${dto.idx})"/>
 		</span>
     <pre style="margin-top: 30px; font-size: 15px;">${dto.content }</pre>
     <div style="margin-top: 30px;">

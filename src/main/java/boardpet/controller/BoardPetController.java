@@ -284,4 +284,14 @@ public class BoardPetController {
 
 
     }
+
+
+
+    // 좋아요 기능
+    @PostMapping("/update-like")
+    @ResponseBody
+    public void updateLike(@RequestParam int idx) {
+        boardpetService.updateBoardLikes(idx);
+    }
+
 }

@@ -46,6 +46,10 @@
         update board_pet set readcount=readcount+1 where idx=#{idx}
     </update>
 
+    <!-- 특정 게시글이ㅡ 좋아요를 1 증가시키는 쿼리 -->
+    <update id="updateBoardLikes" parameterType="int">
+        update board_pet set likes = likes+1 where idx = #{idx}
+    </update>
 
 </mapper>
 

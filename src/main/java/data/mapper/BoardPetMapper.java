@@ -23,4 +23,6 @@ public interface BoardPetMapper {
     public List<BoardPetDto> getSelectById(String myid);
 
     public BoardPetDto getSelectByIdx (int idx);
+
+    void updateBoardLikes(int idx);
 }
