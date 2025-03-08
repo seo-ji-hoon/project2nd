@@ -121,6 +121,8 @@
 
         function replelist() {
 
+            let sessionId = "${sessionScope.loginid}"; // 현재 로그인한 사용자 ID
+
             $.ajax({
                 type:"get",
                 dataType:"json",
@@ -139,12 +141,25 @@
                  			data-bs-toggle="modal" data-bs-target="#myRepleModal" style="width:30px;">
             			<span class="message-text">\${item.message}</span>
 			            <span class="day">\${item.writeday}</span>
-			            <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
+			        `;
+
+                    // 현재 로그인한 사용자와 댓글 작성자(myid)가 같을 경우에만 수정/삭제 버튼 표시
+                    if (sessionId === item.myid) {
+                        s += `
+                        <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
+                            data-message="\${item.message}" data-photo="\${item.photo}">댓글수정</button>
+                        <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.idx}">댓글삭제</button>
+                    `;
+                    }
+                });
+                    /*
+                    *
+                    *
+                    * <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
 			                    data-message="\${item.message}" data-photo="\${item.photo}">댓글수정</button>
 			            <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.idx}">댓글삭제</button>
-			        </div>`;
-                    });
-
+                    *
+                    * */
                     s+="</div>";
                     $("div.replelist").html(s);
                 }
