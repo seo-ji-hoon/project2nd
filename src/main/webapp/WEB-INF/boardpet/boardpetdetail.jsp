@@ -134,9 +134,14 @@
                     let s = "";
 
                     $.each(res,function(idx,item) {
-                        console.log(item);
+                        // console.log(item);
                         s += `
                         <div class="item" style="margin-bottom:5px;" data-repleid="\${item.id}">
+                            <!--id 옆에 프로필 사진 나오게-->
+                            <div style="margin-bottom:25px;">
+                            <img alt="" src="${naverurl}/member2/\${item.profile}" class="profilePhoto" align="left"
+                            onerror="this.src='${root}/noimage.png'">
+                            </div>
                             <span class="day">\${item.myid}</span>
                          `;
 

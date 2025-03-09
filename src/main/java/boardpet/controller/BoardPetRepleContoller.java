@@ -58,9 +58,13 @@ public class BoardPetRepleContoller {
     public List<BoardPetRepleDto> boardrepleList(
             @RequestParam int idx
     ) {
-        List<BoardPetRepleDto> list=null;
-        list=boardrepleServiceService.getboardRepleByNum(idx);
+        List<BoardPetRepleDto> list = boardrepleServiceService.getboardRepleByNum(idx);
 
+        for(int i=0;i<list.size();i++)
+        {
+            String profilePhoto=memberPetService.getSelectByMyid(list.get(i).getMyid()).getMphoto();
+            list.get(i).setProfile(profilePhoto);//댓글 작성자 프로필사진 저장
+        }
 
         return list;
     }
