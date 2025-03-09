@@ -69,25 +69,6 @@ public class BoardPetRepleContoller {
         return list;
     }
 
-    /*@GetMapping("/boardreplelist")
-    public List<BoardPetRepleDto> boardrepleList(@RequestParam int idx) {
-
-        List<BoardPetRepleDto> list = boardrepleServiceService.getboardRepleByNum(idx);
-
-        for(int i=0;i<list.size();i++)
-        {
-            String writer=memberPetService.getSelectByMyid(list.get(i).getMyid()).getMname();
-            String profilePhoto=memberPetService.getSelectByMyid(list.get(i).getMyid()).getMphoto();
-            list.get(i).setWriter(writer);//댓글 작성자 저장
-            list.get(i).setProfile(profilePhoto);//댓글 작성자 프로필사진 저장
-        }
-
-        return list;
-    }*/
-
-
-
-
     @PostMapping("/updateReple")
     public void updateBoardReple(
             @RequestParam int id,

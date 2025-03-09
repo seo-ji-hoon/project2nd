@@ -20,4 +20,5 @@ public class BoardPetDto {
     private Timestamp writeday;
     private String fileName;
     private List<String> photos;
+    private int repleCounting; //댓글갯수
 }

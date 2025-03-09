@@ -97,6 +97,10 @@
                         <a href="./petview?idx=${dto.idx}&pageNum=${pageNum}"
                            style="color: black; text-decoration:none;">
                                 ${dto.subject}
+                                    <!-- 댓글이 있는경우에만 갯수 출력 -->
+                                    <c:if test="${dto.repleCounting>0 }">
+                                        <span style="color: red;">[${dto.repleCounting}]</span>
+                                    </c:if>
                         </a>
                     </td>
                     <td align="center">
