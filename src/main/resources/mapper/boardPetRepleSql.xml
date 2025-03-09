@@ -40,6 +40,11 @@
 		update board_pet_reple set message=#{message} where idx=#{idx}
 	</update>
 
+	<!-- 댓글 수정 - 이미지 삭제 시 호출 -->
+	<update id="updateBoardPetRepleImage" parameterType="BoardPetRepleDto">
+		update board_pet_reple set photo=null where idx=#{idx}
+	</update>
+
 	<!-- 댓글삭제 -->
 	<delete id="deleteBoardReple" parameterType="int">
 		delete from board_pet_reple where idx=#{idx}

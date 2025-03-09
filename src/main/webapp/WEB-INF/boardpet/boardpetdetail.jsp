@@ -131,32 +131,39 @@
                 url:"./boardreplelist",
                 data:{"idx":${dto.idx}},
                 success:function(res){
-                    let s="";
+                    let s = "";
 
-                    $.each(res,function(idx,item){
+                    $.each(res,function(idx,item) {
                         console.log(item);
-                        s+=
-                            `
-
-                	<div class="item" style="margin-bottom:5px;" data-repleid="\${item.id}">
-			            <span class="day">\${item.myid}</span>
-            			<img src="${naverurl}/board_pet_reple/\${item.photo}" class="photo"
-                 			data-bs-toggle="modal" data-bs-target="#myRepleModal" style="width:30px;">
-            			<span class="message-text">\${item.message}</span>
-			            <span class="day">\${item.writeday}</span>
-			        `;
-
-                    // 현재 로그인한 사용자와 댓글 작성자(myid)가 같을 경우에만 수정/삭제 버튼 표시
-                    if (sessionId === item.myid) {
                         s += `
-                        <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
-                            data-message="\${item.message}" data-photo="\${item.photo}">댓글수정</button>
-                        <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.idx}">댓글삭제</button>
-                    `;
-                    }
-                });
+                        <div class="item" style="margin-bottom:5px;" data-repleid="\${item.id}">
+                            <span class="day">\${item.myid}</span>
+                         `;
 
-                    s+="</div>";
+                        // 사진 있을때만 보여져야해!
+                        if (item.photo != null) {
+                        s += `
+                            <img src="${naverurl}/board_pet_reple/\${item.photo}" className="photo"
+                            data-bs-toggle="modal" data-bs-target="#myRepleModal" style="width:30px;"/>
+                        `;
+                        }
+
+                        s += `
+                            <span class="message-text">\${item.message}</span>
+                            <span class="day">\${item.writeday}</span>
+                        `;
+
+                        // 현재 로그인한 사용자와 댓글 작성자(myid)가 같을 경우에만 수정/삭제 버튼 표시
+                        if (sessionId === item.myid) {
+                            s += `
+                            <button type="button" class="btn btn-primary mt-2 updatereple" data-id="\${item.idx}"
+                                data-message="\${item.message}" data-photo="\${item.photo}">댓글수정</button>
+                            <button type="button" class="btn btn-danger mt-2 boardRepledel" data-id="\${item.idx}">댓글삭제</button>
+                            `;
+                        }
+                    });
+
+                    s += "</div>";
                     $("div.replelist").html(s);
                 }
             });
@@ -179,8 +186,14 @@
             let editHtml = `
 		        <div class="item">
 		            <div style="display: flex; align-items: center;">
+		    `;
+            if (photo != null) {
+            editHtml += `
 		                <img src="${naverurl}/board_pet_reple/\${photo}" class="mini edit-photo" style="width: 30px; margin-right: 5px;">
 		                <button class="btn btn-danger btn-sm delete-photo">X</button>
+		    `;
+            }
+            editHtml += `
 		            </div>
 		            <textarea class="form-control edit-message">\${message}</textarea>
 		            <button class="btn btn-success mt-2 save-reple" data-id="\${repleId}">저장</button>
@@ -225,21 +238,20 @@
         });
 
 
-
         //댓글 삭제
-        $(document).on("click",".boardRepledel",function(){
+        $(document).on("click", ".boardRepledel", function () {
             let repleId = $(this).data("id");
-            let ans=confirm("해당 댓글을 삭제할까요?");
-            if(!ans) return;//취소 클릭시 함수 종료
+            let ans = confirm("해당 댓글을 삭제할까요?");
+            if (!ans) return;//취소 클릭시 함수 종료
 
             $.ajax({
-                type:"get",
-                dataType:"text",
-                data:{
+                type: "get",
+                dataType: "text",
+                data: {
                     "idx": repleId,
                 },
-                url:"./deleteBoardReple",
-                success:function(){
+                url: "./deleteBoardReple",
+                success: function () {
                     //댓글 삭제후 전체 댓글 다시 출력
                     replelist();
                 }
@@ -247,19 +259,19 @@
         });
 
         //댓글의 작은사진 클릭시 원본사진 모달로 나오게 하기
-        $(document).on("click","img.photo",function(){
+        $(document).on("click", "img.photo", function () {
             //현재 사진 src 얻기
-            let imgSrc=$(this).attr("src");
+            let imgSrc = $(this).attr("src");
 
             //모달에 넣기
-            $(".modalphoto").attr("src",imgSrc);
+            $(".modalphoto").attr("src", imgSrc);
         });
 
         // 클릭 시 좋아요 +1
         function likes(idx) {
             // 1. 데이터 셋팅
             var data = {
-                "idx" : idx
+                "idx": idx
             };
 
             // 2. ajax 호출 (+1) -> 하트 눌렀어요

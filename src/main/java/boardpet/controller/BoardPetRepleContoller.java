@@ -34,11 +34,12 @@ public class BoardPetRepleContoller {
     public void insertBoardReple(
             @RequestParam int idx,
             @RequestParam String message,
-            @RequestParam("upload") MultipartFile upload,
+            @RequestParam(value = "upload", required = false) MultipartFile upload,
             HttpSession session
     ) {
         //네이버 스토리지에 사진 업로드
         String uploadFilename=storageService.uploadFile(bucketName,"board_pet_reple",upload);
+
         //세션으로 부터 아이디를 얻는다
         String myid=(String)session.getAttribute("loginid");
 
@@ -87,6 +88,7 @@ public class BoardPetRepleContoller {
     public void updateBoardReple(
             @RequestParam int id,
             @RequestParam String message,
+            @RequestParam Boolean deletePhoto,
             HttpSession session
     ) {
 
@@ -98,6 +100,14 @@ public class BoardPetRepleContoller {
 
         //db_insert
         boardrepleServiceService.updateBoardReple(dto);
+
+
+        // 이미지 삭제되면 이미지명 빈값으로 변경
+        //deletePhoto -> true 이면 아래의 서비스를 호출, false 면 호출 안함
+        if(deletePhoto){
+            boardrepleServiceService.updateBoardPetRepleImage(dto);
+        }
+
 
     }
 
