@@ -33,6 +33,7 @@ public class BoardPetRepleService {
 	public String getboardPetPhoto(int idx) {
 		return boardPetRepleMapper.getboardPetPhoto(idx);
 	}
+
 	/*댓글수정*/
 	public void updateBoardReple(BoardPetRepleDto dto) {
 		boardPetRepleMapper.updateBoardPetReple(dto);

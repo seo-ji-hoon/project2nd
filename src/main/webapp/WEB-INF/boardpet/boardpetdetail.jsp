@@ -54,6 +54,7 @@
         }
 
         #photoupload{
+
             display: none;
         }
     </style>
@@ -82,6 +83,7 @@
                 if(m==''){
                     alert("댓글을 입력해주세요");
                     return;
+
                 }
 
                 if(file==null){
@@ -135,6 +137,7 @@
                         console.log(item);
                         s+=
                             `
+
                 	<div class="item" style="margin-bottom:5px;" data-repleid="\${item.id}">
 			            <span class="day">\${item.myid}</span>
             			<img src="${naverurl}/board_pet_reple/\${item.photo}" class="photo"

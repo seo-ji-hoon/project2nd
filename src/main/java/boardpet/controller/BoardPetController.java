@@ -145,7 +145,6 @@ public class BoardPetController {
 
 
         //해당 아이디에 대한 사진을 멤버 테이블에서 얻기
-        System.out.println(">>>>>>>" + dto.getMyid());
         String memberPhoto=memberPetService.getSelectByMyid(dto.getMyid()).getMphoto();
         System.out.println(dto.getMyid());
 

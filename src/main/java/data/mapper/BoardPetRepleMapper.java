@@ -25,4 +25,5 @@ public interface BoardPetRepleMapper {
 	/*댓글삭제*/
 	public void deleteBoardReple(int idx);
 
+
 }

@@ -3,6 +3,7 @@ package boardpet.controller;
 
 import data.dto.BoardPetRepleDto;
 import data.service.BoardPetRepleService;
+import data.service.MemberPetService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import naver.storage.NcpObjectStorageService;
@@ -25,6 +26,8 @@ public class BoardPetRepleContoller {
 
     @Autowired
     final NcpObjectStorageService storageService;
+    @Autowired
+    private MemberPetService memberPetService;
 
     @PostMapping("/addreple")
     @ResponseBody
@@ -35,7 +38,7 @@ public class BoardPetRepleContoller {
             HttpSession session
     ) {
         //네이버 스토리지에 사진 업로드
-        String uploadFilename=storageService.uploadFile(bucketName, " board_pet_reple", upload);
+        String uploadFilename=storageService.uploadFile(bucketName,"board_pet_reple",upload);
         //세션으로 부터 아이디를 얻는다
         String myid=(String)session.getAttribute("loginid");
 
@@ -57,8 +60,28 @@ public class BoardPetRepleContoller {
         List<BoardPetRepleDto> list=null;
         list=boardrepleServiceService.getboardRepleByNum(idx);
 
+
         return list;
     }
+
+    /*@GetMapping("/boardreplelist")
+    public List<BoardPetRepleDto> boardrepleList(@RequestParam int idx) {
+
+        List<BoardPetRepleDto> list = boardrepleServiceService.getboardRepleByNum(idx);
+
+        for(int i=0;i<list.size();i++)
+        {
+            String writer=memberPetService.getSelectByMyid(list.get(i).getMyid()).getMname();
+            String profilePhoto=memberPetService.getSelectByMyid(list.get(i).getMyid()).getMphoto();
+            list.get(i).setWriter(writer);//댓글 작성자 저장
+            list.get(i).setProfile(profilePhoto);//댓글 작성자 프로필사진 저장
+        }
+
+        return list;
+    }*/
+
+
+
 
     @PostMapping("/updateReple")
     public void updateBoardReple(
@@ -83,14 +106,14 @@ public class BoardPetRepleContoller {
             @RequestParam int idx
     ) {
 
-        /*String replePhoto=boardrepleServiceService.getSelectData(num).getPhoto();
-        //null이 아닐경우 스토리지에서 삭제
-		if(replePhoto!=null) {
-			storageService.deleteFile(bucketName, "board", replePhoto);
-		}*/
+        //num 에 해당하는 이미지명 얻기
+        String replePhoto=boardrepleServiceService.getboardPetPhoto(idx);
+        //null 이 아닐경우 스토리지에서 삭제
+        if(replePhoto!=null) {
+            storageService.deleteFile(bucketName, "board_pet_reple", replePhoto);
+        }
 
-
-        //db_delete
+        //db 에서 삭제
         boardrepleServiceService.deleteBoardReple(idx);
 
     }
