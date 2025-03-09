@@ -19,7 +19,8 @@ public class DictionaryService {
         return dictionaryMapper.getTotalCount();
     }
 
-    public DictionaryDto getSelectByIdx (int idx){
+    public DictionaryDto getSelectByIdx (int idx)
+    {
         return dictionaryMapper.getSelectByIdx(idx);
     }
 

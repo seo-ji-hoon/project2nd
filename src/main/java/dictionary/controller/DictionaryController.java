@@ -30,7 +30,7 @@ import naver.storage.NcpObjectStorageService;
 @RequestMapping("/dictionary")
 public class DictionaryController {
 	final DictionaryService dictionaryService;
-	//final DictionaryRepleService dictionaryRepleService;
+	final DictionaryRepleService dictionaryRepleService;
 	final NcpObjectStorageService storageService;
 	
 	//네이버 버켓이름
@@ -40,16 +40,17 @@ public class DictionaryController {
     private MemberPetService memberPetService;
     
     @GetMapping("/dictionarylist")
-    public String list(Model model)
-    {
-        int totalCount;//전체 게시글 갯수
-        List<DictionaryDto> list=dictionaryService.getAllDictionary(); //전체 목록 조회
-        
-        //int replecount=dictionaryRepleService.getRepleByNum(dto.getNum()).size();
+    public String list(Model model) {
+        int totalCount = dictionaryService.getTotalCount(); // 전체 게시글 수
+        List<DictionaryDto> list = dictionaryService.getAllDictionary(); // 전체 목록 조회
 
-        totalCount=dictionaryService.getTotalCount();//총 글갯수
+        // 각 글에 대해 댓글 수 설정
+        for (DictionaryDto dto : list) {
+            int repleCount = dictionaryRepleService.getDictionRepleByIdx(dto.getIdx()).size();
+            dto.setReplecount(repleCount); // DTO에 댓글 수 저장
+        }
 
-        //request에 저장
+        // Model에 데이터 추가
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("list", list);
 

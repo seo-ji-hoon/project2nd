@@ -47,15 +47,13 @@
 			border-radius: 20px;
 		}
 		
-		img.profilephoto{
-			width: 40px;
-			height: 40px;
-			border: 1px solid gray;
-			border-radius: 100px;
-			margin-right: 10px;
-			cursor: pointer;
+		.profilephoto {
+    		width: 40px !important;
+    		height: 40px !important;
+    		border: 1px solid gray !important;
+    		border-radius: 100px !important;
+    		margin-right: 10px !important;
 		}
-		
 		.navdiv {
     		display: flex;
     		justify-content: space-between; /* 양쪽 정렬 */
@@ -221,7 +219,7 @@
 						//새로고침
 						location.reload();
 					}else{
-						수정수정
+						
 						alert("아이디나 비밀번호가 맞지 않습니다");
 						$("#loginpass").val("");
 					}

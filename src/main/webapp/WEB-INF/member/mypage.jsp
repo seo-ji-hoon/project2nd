@@ -51,7 +51,7 @@
     		text-align: center;
 		}
 		
-		.picon:hover {
+		.picon:hover{
  			color: green;
 		}
     </style>
@@ -144,7 +144,7 @@
 		<h6>주소 : ${dto.maddr}</h6>
 		<h6>가입일 :
 		
-			<fmt:formatDate value="${dto.gaipday}" pattern="yyyy-MM-dd HH:mm"/>
+			<fmt:formatDate value="${dto.gaipday}" pattern="yyyy-MM-dd"/>
 		</h6>
 		<br><br>
 		<button type="button" class="btn btn-sm btn-danger"
@@ -288,22 +288,34 @@ $(document).ready(function(){
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="dto" items="${repleList}" varStatus="i">
-                        <tr>
-                            <td align="center" width="60">${i.count}</td>
-                            <td>${dto.message}</td>
-                            <td align="center">
-                                <span style="font-size: 0.8em;">
-                                    <fmt:formatDate value="${dto.writeday}" pattern="yyyy-MM-dd"/>
-                                </span>
-                            </td>
-                            <td>
-                                <a href="../boardpet/petview?idx=${dto.board_idx}" style="color: black;text-decoration: none">
-                                    ${dto.board_subject}
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach var="dto" items="${combinedList}" varStatus="i">
+                <tr>
+                    <td align="center" width="60">${i.count}</td>
+                    <td>${dto.message}</td>
+                    <td align="center">
+                        <span style="font-size: 0.8em;">
+                            <fmt:formatDate value="${dto.writeday}" pattern="yyyy-MM-dd"/>
+                        </span>
+                    </td>
+                    <td class="orginsubject">
+                    <c:choose>
+                    <c:when test="${not empty dto.board_idx}">
+                        <a href="../boardpet/petview?idx=${dto.board_idx}" style="color: black; text-decoration: none">
+                            ${dto.boardSubject}
+                        </a>
+                    </c:when>
+                    <c:when test="${not empty dto.diction_idx}">
+                        <a href="../dictionary/dictionview?idx=${dto.diction_idx}" style="color: black; text-decoration: none">
+                         <b style="color:green;">[백과] &nbsp;</b>${dto.dictionSubject}
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <span>연결된 게시글 없음</span>
+                    </c:otherwise>
+                </c:choose>
+                    </td>
+                </tr>
+            </c:forEach>
                 </tbody>
             </table>
         `);

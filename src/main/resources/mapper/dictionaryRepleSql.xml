@@ -4,7 +4,7 @@
 	<!-- 마이페이지에서 내가 쓴 댓글-->
 	<select id="getSelectRepleById" parameterType="String" resultType="DictionaryRepleDto">
 		SELECT
-		r.idx,
+		r.num,
         r.diction_idx,
 		r.myid,
         r.message,

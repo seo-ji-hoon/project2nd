@@ -64,6 +64,10 @@
                         <a href="./dictionview?idx=${dto.idx}"
                            style="color: black; text-decoration:none;">
                                 ${dto.subject}
+                           <!-- 댓글 수 노출 -->
+							<c:if test="${dto.replecount>0}">
+				   				<span class="badge bg-success">${dto.replecount}</span>
+				   			</c:if>
                         </a>
                     </td>
                     <td align="center">${dto.readcount}</td>
