@@ -24,7 +24,7 @@
        .insertdiv{
         	position: absolute;
         	margin:10px 30px;
-    		top: 65%;
+    		top: 80%;
     		left: 50%;
     		transform: translate(-50%, -50%);
     		width: 600px; /* 기존 크기 유지 */
