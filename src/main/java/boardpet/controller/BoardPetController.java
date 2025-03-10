@@ -204,21 +204,6 @@ public class BoardPetController {
         return "redirect:./boardpetlist?pageNum=" + pageNum;
     }
     
-    
-    //게시글 수정
-    @GetMapping("/dictionaryupdate")
-    public String updateBoardPet(@RequestParam int idx, @RequestParam int pageNum, Model model) {
-
-        BoardPetDto dto = boardpetService.getSelectByIdx(idx);
-
-        model.addAttribute("dto", dto);
-        model.addAttribute("pageNum", pageNum);
-        model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/" + bucketName);
-
-        return "boardpet/boardpetupdateform";
-
-    }
-
     //수정에서 사진 나오게
     // 수정폼에서 기존 사진목록 나타냄
     @GetMapping("/photolist")
@@ -228,6 +213,20 @@ public class BoardPetController {
         List<BoardPetFileDto> list = boardPetFileService.getFiles(idx);
 
         return list;
+
+    }
+
+    //게시글 수정
+    @GetMapping("/petupdate")
+    public String updateBoardPet(@RequestParam int idx, @RequestParam int pageNum, Model model) {
+
+        BoardPetDto dto = boardpetService.getSelectByIdx(idx);
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/" + bucketName);
+
+        return "boardpet/boardpetupdateform";
 
     }
 

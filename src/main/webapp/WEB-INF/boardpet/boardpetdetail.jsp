@@ -322,10 +322,11 @@
         <textarea id="message" class="form-control" rows="2" placeholder="댓글을 입력하세요..."></textarea>
         <div style="margin-top: 10px;">
             <input type="file" id="photoupload">
-            <i class="bi bi-image replephoto"></i>
+            <button class="replephoto btn btn-outline-success btn-sm mt-2">이미지첨부</button>
+            <button type="button"  class="btn btn-success mt-2 btn-sm" id="addreple">댓글저장</button>
         </div>
 
-        <button type="button"  class="btn btn-primary mt-2" id="addreple">댓글저장</button>
+
         <c:if test="${sessionScope.loginid==dto.myid }">
 
             <script type="text/javascript">
