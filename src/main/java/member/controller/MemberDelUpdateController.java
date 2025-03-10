@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.module.ModuleDescriptor.Requires;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +93,7 @@ public class MemberDelUpdateController {
 	@ResponseBody
 	public void updateMember(
 			HttpSession session,
-			@RequestParam("upload") MultipartFile upload,
+			@RequestParam(value="upload", required = false) MultipartFile upload,
 			@RequestParam String mname,
 			@RequestParam String mhp,
 			@RequestParam String maddr,
@@ -100,12 +101,30 @@ public class MemberDelUpdateController {
 			) 
 	{
 		//사진수정시 db 에 저장된 파일명을 받아서 스토리지에서 삭제후 추가할것
-		String oldFilename=memberPetService.getSelectByNum(num).getMphoto();
-		storageService.deleteFile(bucketName, "member2", oldFilename);
+		//String oldFilename=memberPetService.getSelectByNum(num).getMphoto();
+		//storageService.deleteFile(bucketName, "member2", oldFilename);
+		
+		 // 기존 파일명 가져오기
+	    String oldFilename = memberPetService.getSelectByNum(num).getMphoto();
+	    
+	    String uploadFilename = oldFilename; // 기본적으로 기존 파일명을 유지
 
+	    // 사용자가 새 파일을 업로드한 경우만 처리
+	    if (upload != null && !upload.isEmpty()) {
+	        // 기존 파일 삭제
+	        storageService.deleteFile(bucketName, "member2", oldFilename);
+	        
+	        // 새 파일 업로드
+	        uploadFilename = storageService.uploadFile(bucketName, "member2", upload);
+	        
+	        // 세션에 저장된 프로필 사진도 변경
+	        session.setAttribute("loginphoto", uploadFilename);
+	    }
+		
 		//네이버 스토리지에 업로드
-		String uploadFilename=storageService.uploadFile(bucketName, "member2", upload);
-		//db 에서도 수정
+		//String uploadFilename=storageService.uploadFile(bucketName, "member2", upload);
+		
+	    //db 에서도 수정
 		//memberPetService.changePhoto(uploadFilename, num);
 		//세션도 변경
 		session.setAttribute("loginphoto", uploadFilename);

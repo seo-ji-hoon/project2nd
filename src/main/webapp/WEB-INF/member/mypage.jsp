@@ -179,7 +179,11 @@
 			e.preventDefault();//서브밋의 기본이벤트를 무효화(action호출)
 			//alert("submit");
 			let form=new FormData();
-			form.append("upload",$("#fileupload")[0].files[0]);
+			let fileInput = $("#fileupload")[0].files[0];
+
+		    if (fileInput) {
+		        form.append("upload", fileInput); // 파일이 있을 때만 추가
+		    }
 			form.append("num",${dto.num});
 			form.append("mname",$("#mname").val());
 			form.append("mhp",$("#mhp").val());
