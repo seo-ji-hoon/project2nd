@@ -15,6 +15,7 @@
     <style type="text/css">
     	body *{
             font-family: 'Jua';
+            margin: 20px auto;
         }
         .mainimg{
             width: 700px;

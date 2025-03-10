@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
 
-    <style>
+    <style type="text/css">
         body * {
             font-family: 'Jua';
+            margin: 20px auto;
         }
         .mainimg{
             width: 700px;
@@ -292,10 +293,9 @@
     </script>
 </head>
 <body>
-
 <jsp:include page="../../layout/title.jsp"/>
-
-<div style="margin: 30px;">
+<div style="margin: 30px auto;
+        	width: 650px;">
     <h3><b>${dto.subject }</b></h3>
     <img alt="" src="${naverurl}/member2/${memberPhoto}" class="profilePhoto" align="left"
          onerror="this.src='${root}/noimage.png'">

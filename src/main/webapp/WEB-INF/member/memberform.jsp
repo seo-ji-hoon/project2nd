@@ -14,6 +14,7 @@
     <style type="text/css">
     	body *{
             font-family: 'Jua';
+			margin: 20px auto;
         }
         #showimg{
         	width: 150px;

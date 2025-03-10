@@ -15,6 +15,7 @@
     <style type="text/css">
     	body *{
             font-family: 'Jua';
+
         }
         a:link,a:visited {
 			color: black;
