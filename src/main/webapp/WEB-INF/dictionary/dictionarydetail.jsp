@@ -272,16 +272,17 @@
     <!-- 댓글 -->
 
     <div style="margin-top: 30px;">
-        <button type="button" class="btn btn-success btn-sm" style="width: 80px;"
-                onclick="location.href='./writeform'">
-            <i class="bi bi-pencil-square"></i>
-            글쓰기
-        </button>
+        
 
         <%--<button type="button" class="btn btn-outline-secondary btn-sm" style="width: 80px;"
                 onclick="location.href='./writeform?idx=${dto.idx}&regroup=${dto.regroup}&restep=${dto.restep}&relevel=${dto.relevel }&pageNum=${pageNum}'">답글</button>--%>
 
         <c:if test="${sessionScope.loginid==dto.myid }">
+        	<button type="button" class="btn btn-success btn-sm" style="width: 80px;"
+                onclick="location.href='./dictionarywriteform'">
+            <i class="bi bi-pencil-square"></i>
+            글쓰기
+        	</button>
             <button type="button" class="btn btn-outline-secondary btn-sm" style="width:80px;"
                     onclick="location.href='./dictionaryupdateform?idx=${dto.idx}'">수정</button>
 
