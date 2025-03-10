@@ -3,6 +3,7 @@ package boardpet.controller;
 
 import data.dto.BoardPetRepleDto;
 import data.service.BoardPetRepleService;
+import data.service.MemberPetService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import naver.storage.NcpObjectStorageService;
@@ -25,17 +26,20 @@ public class BoardPetRepleContoller {
 
     @Autowired
     final NcpObjectStorageService storageService;
+    @Autowired
+    private MemberPetService memberPetService;
 
     @PostMapping("/addreple")
     @ResponseBody
     public void insertBoardReple(
             @RequestParam int idx,
             @RequestParam String message,
-            @RequestParam("upload") MultipartFile upload,
+            @RequestParam(value = "upload", required = false) MultipartFile upload,
             HttpSession session
     ) {
         //네이버 스토리지에 사진 업로드
-        String uploadFilename=storageService.uploadFile(bucketName, " board_pet_reple", upload);
+        String uploadFilename=storageService.uploadFile(bucketName,"board_pet_reple",upload);
+
         //세션으로 부터 아이디를 얻는다
         String myid=(String)session.getAttribute("loginid");
 
@@ -54,8 +58,13 @@ public class BoardPetRepleContoller {
     public List<BoardPetRepleDto> boardrepleList(
             @RequestParam int idx
     ) {
-        List<BoardPetRepleDto> list=null;
-        list=boardrepleServiceService.getboardRepleByNum(idx);
+        List<BoardPetRepleDto> list = boardrepleServiceService.getboardRepleByNum(idx);
+
+        for(int i=0;i<list.size();i++)
+        {
+            String profilePhoto=memberPetService.getSelectByMyid(list.get(i).getMyid()).getMphoto();
+            list.get(i).setProfile(profilePhoto);//댓글 작성자 프로필사진 저장
+        }
 
         return list;
     }
@@ -64,6 +73,7 @@ public class BoardPetRepleContoller {
     public void updateBoardReple(
             @RequestParam int id,
             @RequestParam String message,
+            @RequestParam Boolean deletePhoto,
             HttpSession session
     ) {
 
@@ -76,6 +86,14 @@ public class BoardPetRepleContoller {
         //db_insert
         boardrepleServiceService.updateBoardReple(dto);
 
+
+        // 이미지 삭제되면 이미지명 빈값으로 변경
+        //deletePhoto -> true 이면 아래의 서비스를 호출, false 면 호출 안함
+        if(deletePhoto){
+            boardrepleServiceService.updateBoardPetRepleImage(dto);
+        }
+
+
     }
 
     @GetMapping("/deleteBoardReple")
@@ -83,14 +101,14 @@ public class BoardPetRepleContoller {
             @RequestParam int idx
     ) {
 
-        /*String replePhoto=boardrepleServiceService.getSelectData(num).getPhoto();
-        //null이 아닐경우 스토리지에서 삭제
-		if(replePhoto!=null) {
-			storageService.deleteFile(bucketName, "board", replePhoto);
-		}*/
+        //num 에 해당하는 이미지명 얻기
+        String replePhoto=boardrepleServiceService.getboardPetPhoto(idx);
+        //null 이 아닐경우 스토리지에서 삭제
+        if(replePhoto!=null) {
+            storageService.deleteFile(bucketName, "board_pet_reple", replePhoto);
+        }
 
-
-        //db_delete
+        //db 에서 삭제
         boardrepleServiceService.deleteBoardReple(idx);
 
     }

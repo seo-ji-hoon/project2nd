@@ -21,7 +21,12 @@ public interface BoardPetRepleMapper {
 	/*댓글수정*/
 	public void updateBoardPetReple(BoardPetRepleDto dto);
 
+
+	/*댓글 수정 - 이미지 삭제 시 호출*/
+	public void updateBoardPetRepleImage(BoardPetRepleDto dto);
+
 	/*댓글삭제*/
 	public void deleteBoardReple(int idx);
+
 
 }

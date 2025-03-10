@@ -52,23 +52,29 @@
 
 <jsp:include page="../../layout/title.jsp"/>
 
-<div style="margin:20px; width:700px;">
-    <h5 class="alert alert-danger">
+<div class="container mt-4">
+    <h5>
         총 ${totalCount}개의 글이 있습니다.
-
-        <button type="button" class="btn btn-sm btn-success"
-                style="float: right;" onclick="location.href='./boardpetwriteform'">등록</button>
     </h5>
+    <div class="d-flex justify-content-between align-items-center mb-3" style="top: 292px;
+    position: absolute; right: 120px;">
+        <div>
+            <button type="button" class="btn btn-sm btn-success">정렬</button>
+            <button type="button" class="btn btn-sm btn-success"
+                style="float: right; margin-left: 10px;" onclick="location.href='./boardpetwriteform'">등록</button>
+        </div>
+    </div>
+
     <table class="tabboard table table-bordered">
-        <thead>
-        <tr>
-            <th >번호</th>
-            <th >사진</th>
-            <th >작성자</th>
-            <th >제목</th>
-            <th >좋아요</th>
-            <th>조회수</th>
-        </tr>
+        <thead class="table-light">
+            <tr style="text-align: center;">
+                <th style="width: 5%;">No</th>
+                <th style="width: 10%;">사진</th>
+                <th style="width: 15%;">작성자</th>
+                <th style="width: 35%;">제목</th>
+                <th style="width: 10%;">좋아요</th>
+                <th style="width: 10%;">조회수</th>
+            </tr>
         </thead>
         <tbody>
         <c:if test="${totalCount==0}">
@@ -83,20 +89,25 @@
             <c:forEach var="dto" items="${list}">
                 <tr>
                     <td align="center">
-                            ${no}/${dto.idx}
+                            ${no}
                         <c:set var="no" value="${no-1}"/>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <c:if test="${dto.fileName != null }">
-                            <img src="${naverurl}/board_pet/${dto.fileName}" style="max-width: 50px;"  alt="사진"/>
+                            <img src="${naverurl}/board_pet/${dto.fileName}" class="rounded-circle"
+                                 style="width: 50px; height: 50px; object-fit: cover;"  alt="사진"/>
                         </c:if>
                     </td>
                     <td align="center">${dto.writer}</td>
                     <td>
                         <!-- 제목 -->
                         <a href="./petview?idx=${dto.idx}&pageNum=${pageNum}"
-                           style="color: black; text-decoration:none;">
+                           class="text-dark text-decoration-none fw-bold">
                                 ${dto.subject}
+                                    <!-- 댓글이 있는경우에만 갯수 출력 -->
+                                    <c:if test="${dto.repleCounting>0 }">
+                                        <span class="badge bg-success ms-1">[&nbsp;${dto.repleCounting}&nbsp;]</span>
+                                    </c:if>
                         </a>
                     </td>
                     <td align="center">
@@ -104,7 +115,7 @@
                             <i class="bi bi-suit-heart"></i>
                         </c:if>
                         <c:if test="${dto.likes > 0}">
-                            <i class="bi bi-suit-heart-fill"></i>
+                            <i class="bi bi-suit-heart-fill text-danger"></i>
                         </c:if>
                             ${dto.likes}
                     </td>
@@ -116,8 +127,8 @@
     </table>
 
     <!--  페이징 처리 -->
-    <div style="width: 700px;">
-        <ul class="pagination" style="margin-left : 200px; font-size : 0.8em;">
+    <div style="width: 100px;">
+        <ul class="pagination" style="margin-right : -70px; font-size : 0.8em;">
             <c:if test="${startPage>1}">
                 <li class="page-item">
                     <a class="page-link" href="./boardpetlist?pageNum=${startPage-1}">Prev</a>
@@ -144,6 +155,98 @@
         </ul>
     </div>
 </div>
+<%--<div class="container mt-4">
+    <h5>총 ${totalCount} 개수</h5>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <button class="btn btn-outline-secondary btn-sm">정렬</button>
+            <button class="btn btn-primary btn-sm">등록</button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped text-center align-middle">
+            <thead class="table-light">
+            <tr>
+                <th style="width: 5%;">No</th>
+                <th style="width: 10%;">사진</th>
+                <th style="width: 15%;">작성자</th>
+                <th style="width: 35%;">제목</th>
+                <th style="width: 10%;">좋아요</th>
+                <th style="width: 10%;">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:if test="${totalCount > 0}">
+                <c:forEach var="dto" items="${list}">
+                    <tr>
+                        <!-- 번호 -->
+                        <td>${no}</td>
+                        <c:set var="no" value="${no-1}"/>
+
+                        <!-- 프로필 이미지 -->
+                        <td>
+                            <c:if test="${dto.fileName != null}">
+                                <img src="${naverurl}/board_pet/${dto.fileName}"
+                                     class="rounded-circle"
+                                     style="width: 50px; height: 50px; object-fit: cover;"
+                                     alt="사진"/>
+                            </c:if>
+                        </td>
+
+                        <!-- 작성자 -->
+                        <td>${dto.writer}</td>
+
+                        <!-- 제목 및 댓글 수 -->
+                        <td class="text-start">
+                            <a href="./petview?idx=${dto.idx}&pageNum=${pageNum}"
+                               class="text-dark text-decoration-none fw-bold">
+                                    ${dto.subject}
+                                <c:if test="${dto.repleCounting > 0}">
+                                    <span class="badge bg-danger ms-1">[${dto.repleCounting}]</span>
+                                </c:if>
+                            </a>
+                        </td>
+
+                        <!-- 좋아요 -->
+                        <td>
+                            <c:choose>
+                                <c:when test="${dto.likes > 0}">
+                                    <i class="bi bi-suit-heart-fill text-danger"></i>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="bi bi-suit-heart"></i>
+                                </c:otherwise>
+                            </c:choose>
+                                ${dto.likes}
+                        </td>
+
+                        <!-- 조회수 -->
+                        <td>${dto.readcount}</td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div class="d-flex justify-content-center mt-3">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">»</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>--%>
+
 
 <script type="text/javascript">
 

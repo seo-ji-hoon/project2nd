@@ -3,6 +3,7 @@ package boardpet.controller;
 import data.dto.BoardPetDto;
 import data.dto.BoardPetFileDto;
 import data.service.BoardPetFileService;
+import data.service.BoardPetRepleService;
 import data.service.BoardPetService;
 import data.service.MemberPetService;
 import jakarta.servlet.http.HttpSession;
@@ -32,6 +33,8 @@ public class BoardPetController {
     private String bucketName="bitcamp-bucket-110";
     @Autowired
     private MemberPetService memberPetService;
+    @Autowired
+    private BoardPetRepleService boardPetRepleService;
 
     // /boardpet/boardpetlist
     @GetMapping("/boardpetlist")
@@ -80,6 +83,10 @@ public class BoardPetController {
             BoardPetDto dto = list.get(i);
             String filename=boardPetFileService.getBoardFileimge(dto.getIdx());
             list.get(i).setFileName(filename);
+
+            //댓글수 저장
+            int repleCounting=boardPetRepleService.getboardRepleByNum(dto.getIdx()).size();
+            dto.setRepleCounting(repleCounting);
         }
 
         //각페이지의 글앞에 출력할 시작번호(예: 총글이 20개일 경우 1페이지는 20,2페이즈는 15..)
@@ -145,9 +152,7 @@ public class BoardPetController {
 
 
         //해당 아이디에 대한 사진을 멤버 테이블에서 얻기
-        System.out.println(">>>>>>>" + dto.getMyid());
         String memberPhoto=memberPetService.getSelectByMyid(dto.getMyid()).getMphoto();
-        System.out.println(dto.getMyid());
 
         //모델에 저장
         model.addAttribute("dto", dto);

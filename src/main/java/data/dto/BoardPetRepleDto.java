@@ -29,4 +29,5 @@ public class BoardPetRepleDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone="Aisa/Seoul")
     private Timestamp writeday; // 댓글 작성일
     private String board_subject; //마이페이지에서 원글 제목 가져오는 용도
+    private String profile; // 댓글작성자 이미지
 }

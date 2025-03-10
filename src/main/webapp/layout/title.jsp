@@ -199,7 +199,7 @@
 	
 <script type="text/javascript">
 		$("#loginfrm").submit(function(e){
-			e.preventDefault();//서브밋의 기본이벤트를 무효화(action호출)
+			e.preventDefault();//서브밋의 기본이벤트를 무효화.(action호출)
 			//alert("submit");
 			let loginid=$("#loginid").val();
 			let loginpass=$("#loginpass").val();

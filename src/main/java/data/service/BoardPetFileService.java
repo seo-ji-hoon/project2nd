@@ -35,4 +35,5 @@ public class BoardPetFileService {
     public String getBoardFileimge(int idx){
         return boardPetFileMapper.getBoardFileimge(idx);
     }
+
 }

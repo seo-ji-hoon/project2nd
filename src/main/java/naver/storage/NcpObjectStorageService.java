@@ -70,6 +70,7 @@ AmazonS3 s3;
 	public void deleteFile(String bucketName, String directoryPath, String fileName) {
 		// TODO Auto-generated method stub
 		String path=directoryPath+"/"+fileName;
+		
 		//해당 버킷에 파일이 존재하면 true반환
 		boolean isfind=s3.doesObjectExist(bucketName,path);
 		//존재할경우 삭제
